@@ -1,0 +1,14 @@
+ 
+  ------------------------ M E R N  B L O G   W E B S I T E -----------------------------
+
+        -------- EXTENTIONS ---
+        1. Prettier
+        2. Tailwind Css IntelliSense
+        3. ES7 + React/Redux
+        4. Multiple curson case preserve
+
+        1. Install Reactjs and Tailwind css and create the first Template
+            
+            1.1 npm create vite@latest
+            1.2 npm install -D tailwindcss postcss autoprefixer (install tailwind css)
+            1.3 npx tailwindcss init -p
