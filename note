@@ -69,7 +69,32 @@
 
             5.1 npm install mongoose (import mongoose from "mangoose")
             5.2 npm i dotenv // inorder to use .env file 
-           
+
+            Note: Here inorder to connected to the database we need to create mongodb
+                  we will get an url to connect the database. Along with the url we need to
+                  pass database-name before '?'. we need to create .env file inorder to store
+                  the database url containing username and password. 
+
+                  To execute .env file we need to install npm i dotenv and import and use dotenv.config()
+                  inorder to avoid .env file from commiting to github, include the file in gitignore
+
+
+          6. Create user Model
+                  6.1 create models folder inside api folder
+                        6.1.1 create user.model.js file inside models folder
+
+                  Notes: Here we provide some set of rules for how actually the username, password and email should be, what all the type, require and unique. So inorder to set some rules we use new mongose.Schema({}). Inorder to create the model we use mongose.model()
+                  eg:
+                   const userScheme = new mongose.Schema({
+                        username: {
+                              type: String,
+                              required: true
+                        }
+                   })  
+                   const User = mongose.model("User",userSchema)
+                   Inorder to use User all other file we need to export export default User
+
+            7. Create a test API route       
 
 
                                
