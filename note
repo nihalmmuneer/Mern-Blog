@@ -193,4 +193,8 @@
 
             12. Create and add the footer component
                   
-                  12.1
+                  12.1 create the footer using Footer from flowbite
+
+                  12.2 import {BsFacebook, BsIntagram, BsTwitter, BsGithub} from 'react-icons/bs
+
+            13. Create Sign in API route      
