@@ -159,4 +159,38 @@
 
             10. Create signup page UI
 
-                  10.1            
+                  Note: Here we create signUp ui with tailwind css
+
+            11. Add Functionality to the signUp page
+
+                  11.1 create an onChange event in each textInput as onChange={handleChange}
+                        const handleChange = (e) => {
+                              setFormData({...formData,[e.target.id]: e.target.value})
+                        }
+                        - So here on-change the input it will store into formData , which is initialized
+                          using useState()
+
+                  11.2 create a onSubmit={handleSubmit} on form tag inorder to submit the whole
+                       fields data. on handleSubmit function we call fetch api
+                        const res = fetch("/api/auth/sign-up", {
+                              method: "POST",
+                              headers: {"Content-Type": "application/json"}
+                              body: res.stringify(formData)
+                        })
+                         const data = await res.json()
+
+                         - So inorder to connect the port number we gave a change in vite.config.js
+                               export defaultConfig({
+                                    server: {
+                                          proxy:{
+                                                "/api":{
+                                                      target: "http://localhost:3000,
+                                                      secure: false
+                                                }
+                                          }
+                                    }
+                               })
+
+            12. Create and add the footer component
+                  
+                  12.1

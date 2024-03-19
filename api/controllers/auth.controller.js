@@ -28,12 +28,10 @@ export const signup = async (req, res, next) => {
     res.json({
       message: " Registered Successfully",
     });
-    await newUser.save();
   } catch (err) {
     // res.status(500).json({
     //   message: err.message,
     // });
-    next(err)
-    
+    next(err);
   }
 };

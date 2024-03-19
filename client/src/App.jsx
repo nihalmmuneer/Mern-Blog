@@ -4,13 +4,13 @@ import About from "./pages/About";
 import Project from "./pages/Project";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
-import SignUp from "./pages/SignUp"
+import SignUp from "./pages/SignUp";
 import Header from "./components/Header";
 
 export default function App() {
   return (
     <BrowserRouter>
-    <Header />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/about" element={<About />}></Route>
