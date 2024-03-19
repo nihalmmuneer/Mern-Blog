@@ -1,5 +1,4 @@
- 
-  ------------------------ M E R N  B L O G   W E B S I T E -----------------------------
+------------------------ M E R N B L O G W E B S I T E -----------------------------
 
         -------- <EXTENTIONS> ---
         1. Prettier
@@ -10,7 +9,7 @@
         -------- </EXTENTIONS> ----
 
         1. Install Reactjs and Tailwind css and create the first Template
-            
+
             1.1 npm create vite@latest
             1.2 npm install -D tailwindcss postcss autoprefixer (install tailwind css)
               1.2.1 npx tailwindcss init -p
@@ -26,12 +25,12 @@
                   1.3.5 git branch -M main
                   1.3.6 git push -u origin main
 
-            1.4 To run - npm run dev      
+            1.4 To run - npm run dev
 
 
-          2. Create pages and Routes    
+          2. Create pages and Routes
 
-              2.1 Pages (Home, Projects, Dashboard, SignIn, SignUp)    
+              2.1 Pages (Home, Projects, Dashboard, SignIn, SignUp)
               2.2 Routers - npm i react-router-dom {BrowserRouter, Routes, Route}
 
           3. Create Header Component
@@ -39,27 +38,27 @@
               3.1 install flowbite-react( To access various stylings) - npm install flowbite-react
               3.2 npm i react-icons (AiOutlineSearch for search-icon)
 
-              Note -summary: Here we install flowbite-react inorder to access some stylings based on 
+              Note -summary: Here we install flowbite-react inorder to access some stylings based on
                              Navbar where we could use <Navbar.Collapse>, <Navbar.Toggle>, <Navbar.link>
-                             <Button color="gray" className="w-12 h-10 lg:hidden" pill> 
+                             <Button color="gray" className="w-12 h-10 lg:hidden" pill>
                               -- here pill is used for round-shape
                                <AiOutlineSearch />
-                              --Used to create Search Icon 
+                              --Used to create Search Icon
                               className=" self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
                               --  whitespace-nowrap used to not break the works if the width is not fit
-           
-           4. Create and Run the server                        
-           
+
+           4. Create and Run the server
+
             4.1 npm init -y - This will create package.json file
             4.2 npm install express
             4.3 include type:"module" in package.json inorder to run node api/index.js(for using path module)
             4.4 inside the scripts in package.json include:
 
                   4.4.1 "dev": "nodemon api/index.js",
-                  4.4.2 "start": node api/index.js (on deployment purpose we not use nodemon)  
+                  4.4.2 "start": node api/index.js (on deployment purpose we not use nodemon)
                   4.4.3 For use type:"module" or dev script we need to import express from "express" in index.js
 
-            4.5 Drag gitignore file to the route folder inorder to commonly used b/w client and api 
+            4.5 Drag gitignore file to the route folder inorder to commonly used b/w client and api
 
             Note: Here we need to connect the server. so inorder to do that we need to install express,
                   nodemon .
@@ -68,12 +67,12 @@
           5.Connect to the database
 
             5.1 npm install mongoose (import mongoose from "mangoose")
-            5.2 npm i dotenv // inorder to use .env file 
+            5.2 npm i dotenv // inorder to use .env file
 
             Note: Here inorder to connected to the database we need to create mongodb
                   we will get an url to connect the database. Along with the url we need to
                   pass database-name before '?'. we need to create .env file inorder to store
-                  the database url containing username and password. 
+                  the database url containing username and password.
 
                   To execute .env file we need to install npm i dotenv and import and use dotenv.config()
                   inorder to avoid .env file from commiting to github, include the file in gitignore
@@ -90,13 +89,72 @@
                               type: String,
                               required: true
                         }
-                   })  
+                   })
                    const User = mongose.model("User",userSchema)
                    Inorder to use User all other file we need to export export default User
 
-            7. Create a test API route       
+            7. Create a test API route
+
+                  7.1 app.use("/api/user", useRouter)
+
+                     - we created a folder named routes inside api folder. inside routes created user.route.js. where we return the get api test for eg:
+                       const router = express.Router()
+                        - inorder to use the router we need to import express
+                       router.get("/test, test)
+                        - here call back test is a callback function where we used to write the logic
+                          and functions. so we created a controllers folder and inside that we
+                          created user.controller.js
+
+                          - export const test = (req,res) => {
+                              res.json({
+                                    message: "api working successfull"
+                              })
+                          }
+
+                        so when we use the url localhost:3000/api/user/test it returns
+                          "api is working fine" statement
 
 
-                               
+            8. Create signup Api route
 
-            
+                  8.1 npm i bcryptjs -(Inorder to hide/hash the password before saving to                database)
+
+                  8.2 create a auth.route.js and auth.controller.js files in routes folder and  controller folder.
+
+                  Note: create a auth.route.js and auth.controller.js files.
+
+                  auth.controller.js
+                  ------------------
+                        - Here we check whether the username, password,email from the req-body
+                          are not empty or null. if it is empty we need to return status 400 error message. if it is not empty the we gonna register to the database with
+                          the given details. So before registering we going to hashSync the password inorder to prevent the leakage.For that we need to install bcryptjs
+                           -- const hashpasswod = bcryptjs.hashSync(password,10)
+
+                  auth.route.js
+                  -------------
+
+                        - same as test api route , we import express and created a router for post api.
+                        --- const router = express.Router()
+                              router.post("/sign-up",signup)  - where callback signup is from auth.controller.js
+
+
+            9. Add a middleware and a function to handle errors
+
+                  Note:
+                     - we create a folder named utils inside we create a file named error.js
+                       where we use a return function errorHandler(err,req,res,next)
+                       which return error
+
+                   So inorder to handle errors in index.js we could give as
+
+                        - app.use((err,req,res,next) => {
+                              const statusCode = err.statusCode || 500
+                              const message = err.message || "Internal Server Error
+                              res.status(statusCode).json({
+                                    success: false,
+                                    message,
+                                    statusCode
+                              })
+                        })
+
+            10.             
