@@ -1,14 +1,77 @@
  
   ------------------------ M E R N  B L O G   W E B S I T E -----------------------------
 
-        -------- EXTENTIONS ---
+        -------- <EXTENTIONS> ---
         1. Prettier
         2. Tailwind Css IntelliSense
         3. ES7 + React/Redux
         4. Multiple curson case preserve
 
+        -------- </EXTENTIONS> ----
+
         1. Install Reactjs and Tailwind css and create the first Template
             
             1.1 npm create vite@latest
             1.2 npm install -D tailwindcss postcss autoprefixer (install tailwind css)
-            1.3 npx tailwindcss init -p
+              1.2.1 npx tailwindcss init -p
+              1.2.2 tailwind.config.js
+              1.2.3 index.css
+
+
+            1.3 github repository
+                  1.3.1 git init
+                  1.3.2 git add .
+                  1.3.3 git commit -m "committed"
+                  1.3.4 git remote add  "(github repo)"
+                  1.3.5 git branch -M main
+                  1.3.6 git push -u origin main
+
+            1.4 To run - npm run dev      
+
+
+          2. Create pages and Routes    
+
+              2.1 Pages (Home, Projects, Dashboard, SignIn, SignUp)    
+              2.2 Routers - npm i react-router-dom {BrowserRouter, Routes, Route}
+
+          3. Create Header Component
+
+              3.1 install flowbite-react( To access various stylings) - npm install flowbite-react
+              3.2 npm i react-icons (AiOutlineSearch for search-icon)
+
+              Note -summary: Here we install flowbite-react inorder to access some stylings based on 
+                             Navbar where we could use <Navbar.Collapse>, <Navbar.Toggle>, <Navbar.link>
+                             <Button color="gray" className="w-12 h-10 lg:hidden" pill> 
+                              -- here pill is used for round-shape
+                               <AiOutlineSearch />
+                              --Used to create Search Icon 
+                              className=" self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+                              --  whitespace-nowrap used to not break the works if the width is not fit
+           
+           4. Create and Run the server                        
+           
+            4.1 npm init -y - This will create package.json file
+            4.2 npm install express
+            4.3 include type:"module" in package.json inorder to run node api/index.js(for using path module)
+            4.4 inside the scripts in package.json include:
+
+                  4.4.1 "dev": "nodemon api/index.js",
+                  4.4.2 "start": node api/index.js (on deployment purpose we not use nodemon)  
+                  4.4.3 For use type:"module" or dev script we need to import express from "express" in index.js
+
+            4.5 Drag gitignore file to the route folder inorder to commonly used b/w client and api 
+
+            Note: Here we need to connect the server. so inorder to do that we need to install express,
+                  nodemon .
+
+
+          5.Connect to the database
+
+            5.1 npm install mongoose (import mongoose from "mangoose")
+            5.2 npm i dotenv // inorder to use .env file 
+           
+
+
+                               
+
+            
