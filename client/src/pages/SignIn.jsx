@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import {
+  signInSuccess,
+  signInStart,
+  signInFailure,
+} from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
 export default function SignIn() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
+  // const [loading, setLoading] = useState("");
+  const { loading, error: errorMessage } = useSelector((state) => state.user); //Redux store state under the user slice.
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -13,32 +22,37 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage("Fill all the fields");
+      // return setErrorMessage("Fill all the fields");
+      dispatch(signInFailure("Fill all the fields"));
     }
     try {
-      setLoading(true);
-      setErrorMessage("");
+      // setLoading(true);
+      // setErrorMessage("");
+      dispatch(signInStart());
       const res = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setLoading(false);
+      // setLoading(false);
       console.log(data, "data");
       if (data.success === false) {
-        return setErrorMessage(data.message);
+        // return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);
+      // setLoading(false); already setting loading:false in signInFailure
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate("/");
       }
       // if (data.success === false) {
       //   setErrorMessage();
       // }
     } catch (error) {
-      setLoading(false);
-      setErrorMessage(error.message);
+      // setLoading(false);
+      // setErrorMessage(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -73,7 +87,7 @@ export default function SignIn() {
               <Label value="Your password" />
               <TextInput
                 type="text"
-                placeholder="Password"
+                placeholder="**********"
                 id="password"
                 onChange={handleChange}
               />
