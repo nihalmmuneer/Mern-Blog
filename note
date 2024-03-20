@@ -197,4 +197,27 @@
 
                   12.2 import {BsFacebook, BsIntagram, BsTwitter, BsGithub} from 'react-icons/bs
 
-            13. Create Sign in API route      
+            13. Create Sign in API route:
+
+                  13.1 install jsonwebtoken npm i jsonwebtoken      
+
+                  Note: 
+                      - Here we check whether the email and password are valid. if its valid we create
+                        the token and send to cookies on success
+                        ie; res.status(200).cookies("access_token",token, {
+                              httpOnly: true // its because the cookie only can be accessible with http
+                                                request
+                        })
+
+                       - Inorder to hide the password from saving to the database we use destructuring
+                         ie, const {password:pass, ..req} = ValidUser._doc
+
+                        - pass: This variable holds the value of the password field from the document object (validUser._doc). It's used to avoid exposing the actual password in the response for security reasons.
+
+                        -rest: This variable holds an object containing all remaining properties from the document object (validUser._doc) except for the password field. It's used to include all other user data in the response, excluding the password. 
+
+                       - Inorder to check the validPassword we use bcryptjs.compareSync(password,
+                         ValidUSer.password) 
+
+            14.             
+
