@@ -219,5 +219,7 @@
                        - Inorder to check the validPassword we use bcryptjs.compareSync(password,
                          ValidUSer.password) 
 
-            14.             
+            14. Complete signin page functionality
+
+                  14.1             
 
