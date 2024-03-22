@@ -192,16 +192,16 @@
                                })
 
             12. Create and add the footer component
-                  
+
                   12.1 create the footer using Footer from flowbite
 
                   12.2 import {BsFacebook, BsIntagram, BsTwitter, BsGithub} from 'react-icons/bs
 
             13. Create Sign in API route:
 
-                  13.1 install jsonwebtoken npm i jsonwebtoken      
+                  13.1 install jsonwebtoken npm i jsonwebtoken
 
-                  Note: 
+                  Note:
                       - Here we check whether the email and password are valid. if its valid we create
                         the token and send to cookies on success
                         ie; res.status(200).cookies("access_token",token, {
@@ -214,12 +214,90 @@
 
                         - pass: This variable holds the value of the password field from the document object (validUser._doc). It's used to avoid exposing the actual password in the response for security reasons.
 
-                        -rest: This variable holds an object containing all remaining properties from the document object (validUser._doc) except for the password field. It's used to include all other user data in the response, excluding the password. 
+                        -rest: This variable holds an object containing all remaining properties from the document object (validUser._doc) except for the password field. It's used to include all other user data in the response, excluding the password.
 
                        - Inorder to check the validPassword we use bcryptjs.compareSync(password,
-                         ValidUSer.password) 
+                         ValidUSer.password)
 
             14. Complete signin page functionality
 
-                  14.1             
+                  Note: create sign-in page same as that of sign-up
 
+            15. Add redux toolkit
+
+                  15.1 npm install @reduxjs/toolkit react-redux
+
+                  15.2 install Redux DevTools extension in chrome
+
+                  Note: create a store.js inside redux folder in src, created userSlice.js
+
+                         store.js
+                         --------
+
+                         - created a configureStore function provided by redux-toolkit
+                             - process of creating a redux store with some predefined defaults
+                               and build-in middleware setup
+
+                         - reducer field specifies the root reducer for the redux store
+                             - reducer is the function specifies how the applications state changes
+                               in response to the actions sent to the store
+
+                             - Here useReducer is registered as the reducer for the 'user' slice of the
+                               redux store
+
+                         userSlice.js
+                         ------------
+
+                          - createSlice is a function provided by Redux toolkit that allows
+                            creating a Redux slice.
+
+                              -The initialState object defines the initial state for the user slice of
+                               the Redux store. It includes properties such as currentUser, error, and  loading.
+
+                               -The createSlice function automatically generates action creators
+                                and reducer based on the defined reducers.
+
+                           - we use these reducer functions inside the signin page using dispatch and
+                             useSelector
+
+            16. Add Redux persist
+
+                    16.1 npm i redux-persist
+
+                        16.1.1 import {combineReducers, PersistGate, persistReducer}
+
+                              Note:  The persist actually uses like when we click on the sign-in button
+                                     the data inside the field is stored in the store. but on refreshing the page it will change into null. So inorder to avoid that
+                                     we use redux-persist to store the data inside the localStorage
+                                     so that the data will not change into null on refreshing.
+
+
+            17. Add Google Auth Functionality
+
+                    17.1 npm install firebase
+
+                    Note: -Create and OAuth.jsx where we created a "Continue with google" button
+                           on clickin the event click it will call out the function handle handleGoogleClick which initalises the provider = new GoogleAuthProvider();
+
+                           - provider.setCustomParameters({prompt:"select_account"}) , this will ask for
+                             the google credentials to login  everytime we click on the "Continue with google" button. Otherwise when we sign in one time it automatically connected to the same account every time we click on the button
+
+                           - on clicking the button,
+                             const resultFormGoogle = await signInwithPopUp(auth,provvider);
+                              const res = fetch("api/auth/google, {
+                                    method:"POST",
+                                    headers: {"Content-Type":"application/json"},
+                                    body: JSON.stringigy({
+                                          username: resultFormGoogle.user.displayName,
+                                          email:resultFormGoogle.user.email,
+                                          googleProfileUrl: resultFormGoogle.user.profileURL
+                                    })
+                              })
+                              const data = res.json()
+
+                           - if the data exists then we need to dispatch signInSuccess(data),   
+                             else we to dispatch signInFailure(error)
+
+            18. Update header component with user data
+
+                        18.1 
