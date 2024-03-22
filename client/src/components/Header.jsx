@@ -8,15 +8,18 @@ import {
   TextInput,
 } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
+import { toggleTheme } from "../redux/theme/themeSlice";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { FaMoon, FaSun } from "react-icons/fa6";
+import { useSelector, useDispatch } from "react-redux";
 export default function Header() {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
   const details = useSelector((state) => state.user.user);
-  console.log(details,'details')
-  if(!details){
-    console.log("no details")
+  const theme = useSelector((state) => state.user.theme);
+  console.log(details, "details");
+  if (!details) {
+    console.log("no details");
   }
   return (
     <Navbar className="border-b-2">
@@ -24,7 +27,7 @@ export default function Header() {
         to="/"
         className=" self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <span className=" bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg px-5 py-1 text-white">
+        <span className=" mr-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg px-3 py-1 text-white">
           Nihal&apos;s
         </span>
         Blog
@@ -40,14 +43,19 @@ export default function Header() {
       <Button color="gray" className="w-12 h-10 lg:hidden" pill>
         <AiOutlineSearch />
       </Button>
-      <div className="flex gap-2 lg:order-2">
-        <Button color="gray" className="w-12 h-10 hidden sm:inline" pill>
-          <FaMoon />
+      <div className="flex gap-2 lg:order-2 ">
+        <Button
+          color="gray"
+          className="w-12 h-10 sm:inline"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {theme.theme === "dark" ? <FaSun /> : <FaMoon />}
         </Button>
 
-        {details.currentUser? (
+        {details.currentUser ? (
           <Dropdown
-          inline
+            inline
             arrowIcon={false}
             label={<Avatar rounded img={details.currentUser?.profilePicture} />}
           >
@@ -62,10 +70,8 @@ export default function Header() {
             <Link to="/dashboard?tab=profile">
               <DropdownItem>Profile</DropdownItem>
             </Link>
-            <DropdownDivider/>
-            <DropdownItem>
-              Sign Out
-            </DropdownItem>
+            <DropdownDivider />
+            <DropdownItem>Sign Out</DropdownItem>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
