@@ -1,9 +1,23 @@
-import { Button, Navbar, TextInput } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownDivider,
+  DropdownItem,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 export default function Header() {
   const path = useLocation().pathname;
+  const details = useSelector((state) => state.user.user);
+  console.log(details,'details')
+  if(!details){
+    console.log("no details")
+  }
   return (
     <Navbar className="border-b-2">
       <Link
@@ -30,10 +44,35 @@ export default function Header() {
         <Button color="gray" className="w-12 h-10 hidden sm:inline" pill>
           <FaMoon />
         </Button>
-        <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue">Sign In</Button>
-        </Link>
-      <Navbar.Toggle />
+
+        {details.currentUser? (
+          <Dropdown
+          inline
+            arrowIcon={false}
+            label={<Avatar rounded img={details.currentUser?.profilePicture} />}
+          >
+            <Dropdown.Header>
+              <span className=" block text-sm dark:text-white">
+                {details.currentUser?.username}
+              </span>
+              <span className="text-sm font-medium dark:text-white">
+                {details.currentUser?.email}
+              </span>
+            </Dropdown.Header>
+            <Link to="/dashboard?tab=profile">
+              <DropdownItem>Profile</DropdownItem>
+            </Link>
+            <DropdownDivider/>
+            <DropdownItem>
+              Sign Out
+            </DropdownItem>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
+            <Button gradientDuoTone="purpleToBlue">Sign In</Button>
+          </Link>
+        )}
+        <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"}>
