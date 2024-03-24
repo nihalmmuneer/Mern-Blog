@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import signRouter from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
 // const express = require("express");
 
 // inorder to use env file
@@ -23,6 +24,9 @@ const app = express();
 
 // To send json to backend
 app.use(express.json());
+
+// Inorder to use cookieParser --> used to get the cookie stored data
+app.use(cookieParser());
 
 // test apis
 // app.get("/test", (req, res) => {

@@ -300,4 +300,103 @@
 
             18. Update header component with user data
 
-                        18.1 
+                        Note: import useSelector from "react-redux" inorder to get the state from redux
+                              state. So on the basis of the current User from the redux state we 
+                              display the profile pic of the logged user. otherwise it will display
+                              a sign-In button instead
+
+
+            19. Setting the theme 
+
+                        19.1 npm install prop-types
+
+                        19.2 created ThemeProvider component inorder to wrap the children for providing
+                              theme color all over the chidren. 
+
+                        19.3 created themeSlicer to create the reducer for toggleTheme. Based on
+                             the toggle theme the bg-color change into dark and light.
+
+                        19.4 import themeReducer in store.
+
+                        19.5 Wrap the whole application app inside the ThemeProvider
+                             component. So the whole application will act as a children prop for ThemeProvider component.           
+                  
+
+            20. Make the dashboard private
+
+                  20.1    - created a component PrivateRouter.jsx inorder to find the whether the  
+                            currentUser from redux state is available or not. ie, whether the user logged in or not.
+
+                          - If the detail.currentUser is empty then we could not navigate to the 
+                            dashboard. Once we try to navigate to dashboard without sign-in, then it will automatically redirected to sign-in.
+
+            21. Complete Sidebar of the dashboard
+
+                  21.1 create two components DashboardSidebar and DashboardProfile and
+                       call it inside the dashboard.jsx
+
+                  Note: - On DashboardSidebar we created a sidebar using Sidebar
+                          from flowbite. The sidebar contains Profile tab and signout tab. So on clicking the profile tab it should display profile page as well as need to redirect the url into ?tab=profile. 
+
+                         - We need useLocation to get the current location.urlSearchParams inorder to get 
+                           the location.search url as well.  ie,
+
+                           useEffect (() => {
+                              const usePrams = new urlSearchParams(location.search)
+                              const tabFromUrl = useParams.get("tab") //Here we get the search value  
+                                                                        given inside the tab ?tab=post
+                              if(tabFromUrl){
+                                    setTab(tabFromUrl)
+                              }                                          
+                           },[location.search])    
+
+
+            22.Complete Profile Page UI    
+
+                        Note: - created profile page Ui with user profile which 
+                                we get from redux state using useSelector(state->state.user)
+
+                              - create a form submission form with username, email, password 
+                                and a button to update the form. Also created a delete and signout button as well
+
+                               - TextInput, Button are used from the flow-bite
+
+
+            23.Complete User Image Upload Functionality
+
+                        23.1 npm install react-circular-progress
+                             - It is installed inorder to get the imageUpload Progress % while uploading
+                               the image.
+
+                        Note: An asynchronous upload image function is called on useEffect() based
+                              selectedImage dependency.
+
+                              - Inorder to store the image we uploading we use firebase storage. 
+                                So inorder to store we have various steps :
+
+                                 const storage = getStorage(app) // getStorage imported from    
+                                                                    firebase/storage
+
+                                  const fileName = selectedImage.name
+                                  const storageRef = ref(storage,fileName)
+                                  const uploadTask = uploadBytesResumable(storageRef, selectedImage)  
+                                  uploadTask.on("state_changed", (snapshot) => {
+                                     const progress = (snapshot.bytesTransferred) / (snapshot.totalBytes) * 100;
+                                     setImageUploadProgress(progress.toFixed(0)) 
+                                  },
+                                  (error) => {
+                                    console.log(error)
+                                  },
+                                  () => {
+                                    getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+                                          setImageSelectedUrl(downloadUrl)
+                                    })
+                                  })       
+
+                               -- This is the steps needed to be done inorder to upload the image
+
+
+            24. Add update user API route
+
+                        24.1 npm i cookie-parser -> Inorder to get the cookie details
+                              
