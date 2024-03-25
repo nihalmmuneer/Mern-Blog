@@ -528,5 +528,22 @@
                               - Onclick Yes, Im sure button it will call a function handleDelete where it calls the delete api
 
                   28. Add Signout functionality
+                        
+                         Note: 
+                           - Create a signout functionality inside user.controller.js
+                               
+                                export const signout = async (req,res,next) => {
+                                    await res.clearCookie("access_token").status(200).json("User signout successfully)
+                                }
 
-                                          
+                           - call signout function inside user.router.js
+
+                           - Inside DashSideBar, Header, Profile => there is a signout button on 
+                              which by clicking the button handleSignout function will trigger 
+                              and dispatch the signOutSuccess reducer function inorder to set the 
+                              currentUser, error, and loading to null
+
+            29. Add admin functionality to the user
+                        
+                                               
+
