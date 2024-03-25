@@ -493,4 +493,40 @@
                                  - If no changes made = "No changes made"
 
              26. Add delete user API route
-                                                      
+
+                               Note:
+                                 - create a deleteUser function in user.controller.js
+                                    - check whether the req.params.user_id === req.user.id
+                                        - if not return errorHandler(401,"User cannot be deleted)
+                                        - otherwise, await User.findByIdAndDelete(req.params.user_id);
+                                           res.status(200).json("User is deleted)                 
+
+                                  - call the deleteUser function from user.route
+                                          
+                                          - router.delete("/delete/:user_id,verifyUser,deleteUser) 
+
+          
+            27. Delete User Account Functionality
+
+                        27.1 Add event handlers to delete button in profile dashboard
+                              - on trigger delete button a modal should popup from flowbite
+
+                              <Modal show={showModal} popup size="md">
+                                    <ModalHeader/>
+                                    <Modal.Body>
+                                          <div>
+                                                <AiOutlineExclamationCircle className="w-14 h-14 mx-auto>
+                                                <h3>Are you sure you want to delete this account</h3>
+                                                      <div className="flex">
+                                                            <Button onClick={handleDelete}>Yes I'm sure</Button>
+                                                            <Button>No,cancel</Button>
+                                                       </div>
+                                           </div>            
+                                    </Modal.Body>
+                              </ModalHeader>
+
+                              - Onclick Yes, Im sure button it will call a function handleDelete where it calls the delete api
+
+                  28. Add Signout functionality
+
+                                          

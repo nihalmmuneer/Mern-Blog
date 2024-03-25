@@ -18,6 +18,7 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
@@ -160,7 +161,23 @@ const DashProfile = () => {
       dispatch(deleteUserFailure(error.message));
     }
   };
+ const handleSignout = async () => {
+  try{
 
+    const res = await fetch("/api/user/signout", {
+      method:"POST"
+    })
+    const data = await res.json();
+    if(res.ok){
+      dispatch(signOutSuccess(data))
+    } else {
+      console.log(data.message)
+    }
+  } 
+  catch(error){
+    console.log(error)
+  }
+ }
   console.log(selectedImage, selectedImageUrl);
   return (
     <div className="  flex flex-col items-center justify-center md:max-w-lg md: mx-auto p-3">
@@ -238,7 +255,7 @@ const DashProfile = () => {
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
           Delete
         </span>
-        <span>Sign Out</span>
+        <span className="cursor-pointer" onClick={() =>handleSignout()}>Sign Out</span>
       </div>
       {updateSuccess && <Alert color="success">{updateSuccess}</Alert>}
       {updateError && <Alert color="failure">{updateError}</Alert>}

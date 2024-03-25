@@ -64,9 +64,15 @@ export const deleteUser = async (req, res, next) => {
     return errorHandler(401, "User cannot be deleted");
   }
   try {
-        await User.findByIdAndDelete(req.params.user_id);
-        res.status(200).json("User has been deleted")
+    await User.findByIdAndDelete(req.params.user_id);
+    res.status(200).json("User has been deleted");
   } catch (error) {
     next(error);
   }
+};
+export const signOut = async (req, res, next) => {
+  await res
+    .clearCookie("access_token")
+    .status(200)
+    .json("User signed out successfully");
 };
