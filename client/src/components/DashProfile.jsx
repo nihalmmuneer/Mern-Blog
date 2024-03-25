@@ -1,4 +1,4 @@
-import { TextInput, Button, Alert } from "flowbite-react";
+import { TextInput, Button, Alert, Modal, ModalHeader } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
@@ -15,8 +15,12 @@ import {
   userUpdateStart,
   userUpdateSuccess,
   userUpdateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 const DashProfile = () => {
   const fileUpload = useRef();
@@ -29,6 +33,7 @@ const DashProfile = () => {
   const [updateSuccess, setUpdateSuccess] = useState(null);
   const [updateError, setUpdateError] = useState(null);
   const [formData, setFormData] = useState({});
+  const [showModal, setShowModal] = useState(null);
   const details = useSelector((state) => state.user.user);
   console.log(imageUploadProgress, errorMessage);
   const handleFilePicker = (e) => {
@@ -137,6 +142,24 @@ const DashProfile = () => {
       setUpdateSuccess(null);
     }
   };
+  const handleDelete = async () => {
+  
+    setShowModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${details.currentUser._id}`, {
+        method: "delete",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
 
   console.log(selectedImage, selectedImageUrl);
   return (
@@ -212,11 +235,38 @@ const DashProfile = () => {
         </Button>
       </form>
       <div className="text-red-700 text-sm w-full flex flex-row justify-between mt-3">
-        <span>Delete</span>
+        <span className="cursor-pointer" onClick={() => setShowModal(true)}>
+          Delete
+        </span>
         <span>Sign Out</span>
       </div>
       {updateSuccess && <Alert color="success">{updateSuccess}</Alert>}
       {updateError && <Alert color="failure">{updateError}</Alert>}
+
+      <Modal
+        show={showModal}
+        size="md"
+        popup
+        onClose={() => setShowModal(false)}
+      >
+        <ModalHeader />
+        <Modal.Body>
+          <div className="text-center">
+            <AiOutlineExclamationCircle className="h-14 w-14 text-gray-500 mx-auto dark:text-gray-200 mb-1" />
+            <h3 className="text-gray-500 text-lg dark:text-gray-200 mb-6 mt-4">
+              Are You sure you want to delete your account?
+            </h3>
+            <div className="flex justify-center gap-4 mb-4">
+              <Button color="failure" onClick={() => handleDelete()}>
+                Yes, I&apos;m sure{" "}
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
