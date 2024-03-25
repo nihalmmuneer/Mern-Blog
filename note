@@ -399,4 +399,98 @@
             24. Add update user API route
 
                         24.1 npm i cookie-parser -> Inorder to get the cookie details
-                              
+                        
+                        24.2 create verifyUser.js inside utils 
+
+                        Note: 
+                           - Inorder to update the user we need to check whether the user is logged in or
+                             not. So inorder to verify we create verifyUser.js inside utils 
+
+                           - Inorder to access the token from cookies. req.cookies.access_token we need
+                             to install package npm i cookie-parser. Import and use in index.js
+                              app.use(cookieparser()) 
+
+                            verifyUser.js
+                            -------------
+
+                           - fetch the token from req.cookie.access_token and verify it using jwt 
+                             with secret key
+
+                             jwt.verify(token,process.env.SECRET_KEY,(err,user)){
+                              if(err){
+                                    return  next(errorHandler(401, "Unauthorized"));
+                              }
+                              req.user=user
+                             }    
+
+                             user.controller.js
+                             ------------------
+
+                             - Its the function for update user with various validations
+                                
+                                 - Check the req.user !== req.params.user_id
+                                     
+                                      - return error
+                                  
+                                  - check if there is username
+                                          
+                                          - check username contains atleast 6 characters, cannot  
+                                            contain spaces, should be lowercase, contains letter and 
+                                            numbers only
+                                  
+                                  - check the password
+
+                                          - password should contains atleast 6 
+                                            characters.
+
+                                          - hashSync the password
+                                            creq.body.password = bcryptjs.hashSync(req.body.password,10)                       
+                                   
+                                   - check the user by findByIdAndUpdate(req.params.user_id, {
+                                     $set: {
+                                          username: req.body.username,
+                                          email:req.body.email,
+                                          password: req.body.password,
+                                          profilePicture: req.body.profilePicture
+                                     }
+                                   }, {new:true} // inorder to set the update value otherwise it will fetch the previous value)
+                                   
+                                   const {password,...rest} = updateUser._doc
+                                   res.status(200).json(rest)
+                             
+                              user.router.js
+                              --------------
+                                  - import userUpdate inside the user.route.js
+                                     router.put("user-update/:user_id,verifyUser/updateUser) 
+
+            25. Complete Update user profile page functionality
+
+                        25.1 created userUpdateStart(),userUpdateSuccess(),userUpdateFailure()
+                             reducer function in userSlice.js
+
+                        Note:
+                            - Here first we check the field has any changes. If not, then
+                              it will return with setUpdateError(No changes made)
+
+                            - if we do then, we need to validate for the fields username, password
+                              email, profilePicture with various rules.
+
+                             - Besides from above mentioned validation we made a api call for 
+                               update user
+
+                               const res = await fetch("/api/user/user-update/${details.currentUser",{
+                                    method: "PUT",
+                                    headers:{"Content-Type":"application/json"},
+                                    body:JSON.stringify(formData)
+                               }})        
+                               const data = await res.json()
+
+                             - Once its successfully updated then will display an alert with
+                               "Updating the user is successful"
+
+                             - Else Alert message will be displayed based on the error 
+                                 - If image uploading - "Image is Loading..." 
+                                 - If no changes made = "No changes made"
+
+             26. Add delete user API route
+                                                      
