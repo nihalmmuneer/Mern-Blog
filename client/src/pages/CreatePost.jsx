@@ -70,7 +70,6 @@ const CreatePost = () => {
         setPublishError(data.message);
         return;
       } else {
-        res.status(200).json(data);
         console.log(data, "data");
         navigate(`/${data.slug}`);
       }
