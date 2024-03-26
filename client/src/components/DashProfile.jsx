@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { app } from "../firebase";
+import { Link } from "react-router-dom";
 import {
   ref,
   uploadBytesResumable,
@@ -144,7 +145,6 @@ const DashProfile = () => {
     }
   };
   const handleDelete = async () => {
-  
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
@@ -161,23 +161,21 @@ const DashProfile = () => {
       dispatch(deleteUserFailure(error.message));
     }
   };
- const handleSignout = async () => {
-  try{
-
-    const res = await fetch("/api/user/signout", {
-      method:"POST"
-    })
-    const data = await res.json();
-    if(res.ok){
-      dispatch(signOutSuccess(data))
-    } else {
-      console.log(data.message)
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        dispatch(signOutSuccess(data));
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } 
-  catch(error){
-    console.log(error)
-  }
- }
+  };
   console.log(selectedImage, selectedImageUrl);
   return (
     <div className="  flex flex-col items-center justify-center md:max-w-lg md: mx-auto p-3">
@@ -247,15 +245,26 @@ const DashProfile = () => {
           onChange={handleChange}
           autoComplete="current-password"
         />
-        <Button gradientDuoTone="purpleToBlue" type="submit">
-          Update
+        <Button
+          gradientDuoTone="purpleToBlue"
+          type="submit"
+          disabled={details.loading || imageFileUploading}
+        >
+          {details.loading ? "Loading..." : "Update"}
         </Button>
+        {details.currentUser.isAdmin && (
+          <Link to="/create-post">
+            <Button gradientDuoTone="purpleToPink" className="w-full">Create a Post</Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-700 text-sm w-full flex flex-row justify-between mt-3">
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
           Delete
         </span>
-        <span className="cursor-pointer" onClick={() =>handleSignout()}>Sign Out</span>
+        <span className="cursor-pointer" onClick={() => handleSignout()}>
+          Sign Out
+        </span>
       </div>
       {updateSuccess && <Alert color="success">{updateSuccess}</Alert>}
       {updateError && <Alert color="failure">{updateError}</Alert>}
