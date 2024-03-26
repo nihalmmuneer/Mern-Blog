@@ -1,4 +1,4 @@
------------------------- M E R N B L O G W E B S I T E -----------------------------
+------------------------ M E R N    B L O G    W E B S I T E -----------------------------
 
         -------- <EXTENTIONS> ---
         1. Prettier
@@ -295,23 +295,23 @@
                               })
                               const data = res.json()
 
-                           - if the data exists then we need to dispatch signInSuccess(data),   
+                           - if the data exists then we need to dispatch signInSuccess(data),
                              else we to dispatch signInFailure(error)
 
             18. Update header component with user data
 
                         Note: import useSelector from "react-redux" inorder to get the state from redux
-                              state. So on the basis of the current User from the redux state we 
+                              state. So on the basis of the current User from the redux state we
                               display the profile pic of the logged user. otherwise it will display
                               a sign-In button instead
 
 
-            19. Setting the theme 
+            19. Setting the theme
 
                         19.1 npm install prop-types
 
                         19.2 created ThemeProvider component inorder to wrap the children for providing
-                              theme color all over the chidren. 
+                              theme color all over the chidren.
 
                         19.3 created themeSlicer to create the reducer for toggleTheme. Based on
                              the toggle theme the bg-color change into dark and light.
@@ -319,15 +319,15 @@
                         19.4 import themeReducer in store.
 
                         19.5 Wrap the whole application app inside the ThemeProvider
-                             component. So the whole application will act as a children prop for ThemeProvider component.           
-                  
+                             component. So the whole application will act as a children prop for ThemeProvider component.
+
 
             20. Make the dashboard private
 
-                  20.1    - created a component PrivateRouter.jsx inorder to find the whether the  
+                  20.1    - created a component PrivateRouter.jsx inorder to find the whether the
                             currentUser from redux state is available or not. ie, whether the user logged in or not.
 
-                          - If the detail.currentUser is empty then we could not navigate to the 
+                          - If the detail.currentUser is empty then we could not navigate to the
                             dashboard. Once we try to navigate to dashboard without sign-in, then it will automatically redirected to sign-in.
 
             21. Complete Sidebar of the dashboard
@@ -336,27 +336,27 @@
                        call it inside the dashboard.jsx
 
                   Note: - On DashboardSidebar we created a sidebar using Sidebar
-                          from flowbite. The sidebar contains Profile tab and signout tab. So on clicking the profile tab it should display profile page as well as need to redirect the url into ?tab=profile. 
+                          from flowbite. The sidebar contains Profile tab and signout tab. So on clicking the profile tab it should display profile page as well as need to redirect the url into ?tab=profile.
 
-                         - We need useLocation to get the current location.urlSearchParams inorder to get 
+                         - We need useLocation to get the current location.urlSearchParams inorder to get
                            the location.search url as well.  ie,
 
                            useEffect (() => {
                               const usePrams = new urlSearchParams(location.search)
-                              const tabFromUrl = useParams.get("tab") //Here we get the search value  
+                              const tabFromUrl = useParams.get("tab") //Here we get the search value
                                                                         given inside the tab ?tab=post
                               if(tabFromUrl){
                                     setTab(tabFromUrl)
-                              }                                          
-                           },[location.search])    
+                              }
+                           },[location.search])
 
 
-            22.Complete Profile Page UI    
+            22.Complete Profile Page UI
 
-                        Note: - created profile page Ui with user profile which 
+                        Note: - created profile page Ui with user profile which
                                 we get from redux state using useSelector(state->state.user)
 
-                              - create a form submission form with username, email, password 
+                              - create a form submission form with username, email, password
                                 and a button to update the form. Also created a delete and signout button as well
 
                                - TextInput, Button are used from the flow-bite
@@ -371,18 +371,18 @@
                         Note: An asynchronous upload image function is called on useEffect() based
                               selectedImage dependency.
 
-                              - Inorder to store the image we uploading we use firebase storage. 
+                              - Inorder to store the image we uploading we use firebase storage.
                                 So inorder to store we have various steps :
 
-                                 const storage = getStorage(app) // getStorage imported from    
+                                 const storage = getStorage(app) // getStorage imported from
                                                                     firebase/storage
 
                                   const fileName = selectedImage.name
                                   const storageRef = ref(storage,fileName)
-                                  const uploadTask = uploadBytesResumable(storageRef, selectedImage)  
+                                  const uploadTask = uploadBytesResumable(storageRef, selectedImage)
                                   uploadTask.on("state_changed", (snapshot) => {
                                      const progress = (snapshot.bytesTransferred) / (snapshot.totalBytes) * 100;
-                                     setImageUploadProgress(progress.toFixed(0)) 
+                                     setImageUploadProgress(progress.toFixed(0))
                                   },
                                   (error) => {
                                     console.log(error)
@@ -391,7 +391,7 @@
                                     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
                                           setImageSelectedUrl(downloadUrl)
                                     })
-                                  })       
+                                  })
 
                                -- This is the steps needed to be done inorder to upload the image
 
@@ -399,21 +399,21 @@
             24. Add update user API route
 
                         24.1 npm i cookie-parser -> Inorder to get the cookie details
-                        
-                        24.2 create verifyUser.js inside utils 
 
-                        Note: 
+                        24.2 create verifyUser.js inside utils
+
+                        Note:
                            - Inorder to update the user we need to check whether the user is logged in or
-                             not. So inorder to verify we create verifyUser.js inside utils 
+                             not. So inorder to verify we create verifyUser.js inside utils
 
                            - Inorder to access the token from cookies. req.cookies.access_token we need
                              to install package npm i cookie-parser. Import and use in index.js
-                              app.use(cookieparser()) 
+                              app.use(cookieparser())
 
                             verifyUser.js
                             -------------
 
-                           - fetch the token from req.cookie.access_token and verify it using jwt 
+                           - fetch the token from req.cookie.access_token and verify it using jwt
                              with secret key
 
                              jwt.verify(token,process.env.SECRET_KEY,(err,user)){
@@ -421,31 +421,31 @@
                                     return  next(errorHandler(401, "Unauthorized"));
                               }
                               req.user=user
-                             }    
+                             }
 
                              user.controller.js
                              ------------------
 
                              - Its the function for update user with various validations
-                                
+
                                  - Check the req.user !== req.params.user_id
-                                     
+
                                       - return error
-                                  
+
                                   - check if there is username
-                                          
-                                          - check username contains atleast 6 characters, cannot  
-                                            contain spaces, should be lowercase, contains letter and 
+
+                                          - check username contains atleast 6 characters, cannot
+                                            contain spaces, should be lowercase, contains letter and
                                             numbers only
-                                  
+
                                   - check the password
 
-                                          - password should contains atleast 6 
+                                          - password should contains atleast 6
                                             characters.
 
                                           - hashSync the password
-                                            creq.body.password = bcryptjs.hashSync(req.body.password,10)                       
-                                   
+                                            creq.body.password = bcryptjs.hashSync(req.body.password,10)
+
                                    - check the user by findByIdAndUpdate(req.params.user_id, {
                                      $set: {
                                           username: req.body.username,
@@ -454,14 +454,14 @@
                                           profilePicture: req.body.profilePicture
                                      }
                                    }, {new:true} // inorder to set the update value otherwise it will fetch the previous value)
-                                   
+
                                    const {password,...rest} = updateUser._doc
                                    res.status(200).json(rest)
-                             
+
                               user.router.js
                               --------------
                                   - import userUpdate inside the user.route.js
-                                     router.put("user-update/:user_id,verifyUser/updateUser) 
+                                     router.put("user-update/:user_id,verifyUser/updateUser)
 
             25. Complete Update user profile page functionality
 
@@ -475,21 +475,21 @@
                             - if we do then, we need to validate for the fields username, password
                               email, profilePicture with various rules.
 
-                             - Besides from above mentioned validation we made a api call for 
+                             - Besides from above mentioned validation we made a api call for
                                update user
 
                                const res = await fetch("/api/user/user-update/${details.currentUser",{
                                     method: "PUT",
                                     headers:{"Content-Type":"application/json"},
                                     body:JSON.stringify(formData)
-                               }})        
+                               }})
                                const data = await res.json()
 
                              - Once its successfully updated then will display an alert with
                                "Updating the user is successful"
 
-                             - Else Alert message will be displayed based on the error 
-                                 - If image uploading - "Image is Loading..." 
+                             - Else Alert message will be displayed based on the error
+                                 - If image uploading - "Image is Loading..."
                                  - If no changes made = "No changes made"
 
              26. Add delete user API route
@@ -499,13 +499,13 @@
                                     - check whether the req.params.user_id === req.user.id
                                         - if not return errorHandler(401,"User cannot be deleted)
                                         - otherwise, await User.findByIdAndDelete(req.params.user_id);
-                                           res.status(200).json("User is deleted)                 
+                                           res.status(200).json("User is deleted)
 
                                   - call the deleteUser function from user.route
-                                          
-                                          - router.delete("/delete/:user_id,verifyUser,deleteUser) 
 
-          
+                                          - router.delete("/delete/:user_id,verifyUser,deleteUser)
+
+
             27. Delete User Account Functionality
 
                         27.1 Add event handlers to delete button in profile dashboard
@@ -521,29 +521,125 @@
                                                             <Button onClick={handleDelete}>Yes I'm sure</Button>
                                                             <Button>No,cancel</Button>
                                                        </div>
-                                           </div>            
+                                           </div>
                                     </Modal.Body>
                               </ModalHeader>
 
                               - Onclick Yes, Im sure button it will call a function handleDelete where it calls the delete api
 
                   28. Add Signout functionality
-                        
-                         Note: 
+
+                         Note:
                            - Create a signout functionality inside user.controller.js
-                               
+
                                 export const signout = async (req,res,next) => {
                                     await res.clearCookie("access_token").status(200).json("User signout successfully)
                                 }
 
                            - call signout function inside user.router.js
 
-                           - Inside DashSideBar, Header, Profile => there is a signout button on 
-                              which by clicking the button handleSignout function will trigger 
-                              and dispatch the signOutSuccess reducer function inorder to set the 
+                           - Inside DashSideBar, Header, Profile => there is a signout button on
+                              which by clicking the button handleSignout function will trigger
+                              and dispatch the signOutSuccess reducer function inorder to set the
                               currentUser, error, and loading to null
 
             29. Add admin functionality to the user
-                        
-                                               
+
+                        Note:
+
+                           - Create isAdmin attribute inside the userModel
+
+                               isAdmin: {
+                                 type:Boolean,
+                                 default:false
+                           }
+
+                           - In user.controller.js , add isAdmin inside the jwt signin
+                              jwt.signIn({
+                                    id: user._id,
+                                    isAdmin: user.isAdmin
+                              }, process.env.SECRET_KEY)
+
+                              Like wise add isAdmin inside the google validation
+
+
+             30.Complete create a post page UI
+
+                              - npm install react-quill --save
+
+                              - create a createPost page where it only allows to show for
+                                isAdmin:true members.
+
+                              - So inorder to do that, we created isAdminPrivateRouteOnly.jsx
+                                component where we check whether,
+
+                                details.currentUser.isAdmin ? <Outlet> : <Navigate to="/sign-in">
+                                In app.js,
+
+                                <Route element = {<isAdminPrivateRouter/>}>
+                                    <Route path="/create-post" element={<CreatePost/>}>
+                                </Route>
+
+                                - So whats happening is like, if isAdmin is true it will redirect to the children createPost page. Otherwise,  will redirected to sign-in
+
+                                - create Page includes:
+                                          -Title
+                                          - FileInput and UploadImage Button
+                                          - React Quill
+                                          -Publish Button
+
+            31. Create a post API route
+
+                        31.1 create post.route.js
+                              - import express from "express"
+                              - const router - express.Router()
+                              -router.post("/create",verifyToken,createPost)
+
+                        31.2 create post.model.js
+                              -import mongoose from "mongoose"
+                              - const postScheme = new mongoose.Schema(
+                                    title: {
+                                          type:String,
+                                          unique:true,
+                                          required:true
+                                    },
+                                    content: {
+                                          type:String,
+                                          required:true
+                                    },
+                                    image : {
+                                          type:String,
+                                          default: "someUrl"
+                                    }
+                                    ....etc
+                              )   
+                              const POST = mongoose.model("POST",postSchema);
+                              export default POST;
+                              
+                        31.3 Create post.controller.js 
+
+                              - check whether isAdmin is true or not
+                                  if(!req.user.isAdmin){
+                                   return next(errorHandler(401,"User cannot createPost))
+                                  }     
+
+                               - check whether the title and content are empty or not
+                                    if(!req.body.title || !req.body.){
+                                          return next(errorHandler(401,"Fill all the fields"))
+                                    }   
+                                    const slug = req.body.title.split("").join("").toLowerCase().replace(/[^a-zA-Z0-9]/g, "-")
+
+                              - If everything good then will create a post and save into database
+                                    const newPOST = new POST({
+                                          ...req.body,
+                                          slug,
+                                          userId:req.user.id
+                                    })     
+                                    const savePost = await newPost.save()
+                                    res.status(201).json(savePost) 
+
+
+                  32. Complete upload post image functionality
+
+                        32.1
 

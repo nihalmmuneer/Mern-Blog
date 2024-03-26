@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/user.route.js";
 import signRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
+import postRouter from "./routes/post.route.js";
 // const express = require("express");
 
 // inorder to use env file
@@ -37,6 +38,8 @@ app.use(cookieParser());
 app.use("/api/user", userRouter);
 
 app.use("/api/auth", signRouter);
+
+app.use("/api/post", postRouter);
 
 // middleware to handle errors
 
