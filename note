@@ -641,5 +641,110 @@
 
                   32. Complete upload post image functionality
 
-                        32.1
+                        Note: 
+                              - Here on clicking on the update button follows various condition checks
+
+                                    -if(!file) {
+                                          setImageUpdateError(401,"Image not uploaded")
+                                          return
+                                          }
+                                    - const storage = getStorage(app)
+                                      const fileName = new Data().getTime() + "-" + file
+                                      const storageRef = ref(storage,fileName);
+                                      const uploadTask = uploadBytesResumable(storageRef,file)
+                                      uploadTask.on (
+                                          "state_changed",
+                                          (snapshot) => {
+                                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                                setImageUploadProgress(progress);
+                                          },
+                                          (error) => {
+                                                setImageUpdateError(error);
+                                                setImageUploadProgress(null);
+                                          }
+                                          () => {
+                                                getDownloadUrl(uploadTask.snapshot.ref).then((downloadUrl) => {
+                                                      setFormData({...formData, image:downloadUrl})
+                                                })
+                                          }
+                                      )      
+
+                                    - Also on clicking the upload Button. If image uploading is in  
+                                      progress then we need to display circular progress bar .
+
+                                      - Once completed image is uploaded it will display upload button again
+
+                  
+                  33.Complete create post functionality
+
+                              Note: 
+                                  - Created onChange functionality for TextInput,ReactQuill,Selector
+                                  - On form submission the it will call a handlePublish function where
+                                    it call post api by sending the formData as body
+
+                                   - Once the create Publish is successfull then it redirected to the
+                                     slug url. eg: navigate(`/${data.slug}`)  
+
+                  34.Add Post Section to the Dashboard
+
+                              34.1 Created DashBoardPost.jsx as a post section
+
+                              Note: created a post sidebar only accessible by admin. If we click on
+                                    the post sidebar it will redirect to Post Section.
+
+                  35.Create get posts API route
+
+                              Note:
+
+                               -  create a getPost function inside post.controller.js
+
+                               - export const getPost = (req,res,next) => {
+                                    try{ 
+                                          const startIndex = parseInt(req.query.startIndex) || 0;
+                                          const limit = parseInt(req.query.limit) || 9;
+                                          const sortDirection = req.query.order === "asc" ? 1 : -1
+
+                                          const posts = await POST.find({
+                                                (...req.query.userId && {userId:req.query.userId}),
+                                                (...req.query.category && {category: req.query.category}),
+                                                (...req.query.slug && {slug: req.query.slug}),
+                                                (...req.query.postId && {_id: req.query.postId}),
+                                                (...req.query.searchTerm && {
+                                                      $or: [{
+                                                            title: {$regex: req.query.searchTerm, $options:"i"},
+                                                            content; {$regex: req.query.searchTerm,
+                                                             $options: "i"}
+                                                      }]
+                                                      //$or: This is a MongoDB operator that performs a logical OR operation on an array of conditions. It's used here to specify that the search term should match either the title or the content of a post.
+                                                })
+                                          }).sort({updatedAt:sortDirection})
+                                          .skip(startIndex)
+                                          .limit(limit)
+
+                                          const totalPosts = await POST.countDocuments()
+
+                                          <!-- Counting number of posts created last month -->
+
+                                          const now = new Date();
+                                          const oneMonthAgo = new Date(
+                                                now.getFullYear(),
+                                                now.getMonth() - 1,
+                                                now.getDate()
+                                          )
+                                          const lastMonthPosts = await POST.countDocuments({
+                                                createdAt: {$gte: oneMonthAgo},
+                                          });
+                                          res.status(200).json({
+                                                posts,
+                                                totalPosts,
+                                                lastMonthPosts
+                                          })
+                                    }
+                                    catch(error) => {
+                                          next(error)
+                                    }
+                               }                  
+
+
+
 
