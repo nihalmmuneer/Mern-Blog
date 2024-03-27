@@ -6,8 +6,27 @@ import { Link } from "react-router-dom";
 
 const DashPosts = () => {
   const [userPosts, setUserPosts] = useState([]);
+  const [showMore, setShowMore] = useState(true);
   const details = useSelector((state) => state.user.user);
   console.log(userPosts, "userPosts");
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length;
+
+    try {
+      const res = await fetch(
+        `api/post/get-posts?userId=${details.currentUser?._id}&startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserPosts((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,6 +36,10 @@ const DashPosts = () => {
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
+          console.log(data.posts.length, "data-length");
+          if (data.posts.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(error.message);
@@ -27,8 +50,10 @@ const DashPosts = () => {
     }
   }, [details.currentUser?._id]);
   return (
-    <div className="p-3 md:overflow-auto  overflow-x-auto scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700
-    dark:scrollbar-thumb-slate-500">
+    <div
+      className="p-3 md:overflow-auto  overflow-x-auto scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700
+    dark:scrollbar-thumb-slate-500"
+    >
       {details.currentUser?.isAdmin && userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
@@ -59,11 +84,18 @@ const DashPosts = () => {
                       </Link>
                     </Table.Cell>
                     <Table.Cell>
-                      <Link className="text-gray-900 dark:text-white" to={`posts/${post.slug}`}>{post.title}</Link>
+                      <Link
+                        className="text-gray-900 dark:text-white"
+                        to={`posts/${post.slug}`}
+                      >
+                        {post.title}
+                      </Link>
                     </Table.Cell>
                     <Table.Cell>{post.category}</Table.Cell>
                     <Table.Cell>
-                      <span className="text-red-700 hover:underline">Delete</span>
+                      <span className="text-red-700 hover:underline">
+                        Delete
+                      </span>
                     </Table.Cell>
                     <Table.Cell className="hover:underline">
                       <Link to={`/update-posts/${post._id}`}>
@@ -75,6 +107,15 @@ const DashPosts = () => {
               </>
             ))}
           </Table>
+          {showMore && (
+            <button
+              type="button"
+              onClick={handleShowMore}
+              className="py-3 w-full mx-auto text-teal-500"
+            >
+              show more
+            </button>
+          )}
         </>
       ) : (
         "No Posts Yet !!"
