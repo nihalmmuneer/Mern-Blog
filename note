@@ -744,7 +744,56 @@
                                           next(error)
                                     }
                                }                  
+                  
+                  36. Show User posts inside dashboard
 
+                              36.1 npm install --save-dev tailwind-scrollbar
+                                    - Add plugins into tailwind.config.js
+
+                                Note: created a Table from flowbite
+                                         - Check whether the redux contains currentUser.isAdmin
+                                           && userPost.length > 0 
+
+                                             - If its true, then create a Table with TableHeader,
+                                                Table.HeaderCell which is used to insert the table header
+
+                                             -  map the userPosts.map(post) => (
+                                                <Table.Body>
+                                                <Table.Row>
+                                                    <Table.Cell>
+                                                    {post.updatedAt}
+                                                    </Table.Cell>>  
+                                                </Table.Row>
+                                                </Table.Body>
+                                             )   
+
+                                         - install scrollbar from scrollbar-tailwind and also add 
+                                           plugins inside the tailwind.config.js
+
+                                           - style the scrollbar in the parent div
+                                                <div className ="scrollbar scrollbar-track-slate-500" scrollbar-thumb-slate-700>  
+
+
+                  37.Add show more functionality to the posts results of 
+                     the dashboard               
+
+                                    Note: 
+
+                                      - Created a useState for showmore
+                                          const [showmore, setShowMore] = useState(true)
+
+                                      - so on useEffect if the data length we fetched using userId 
+                                         is less than 9 then it will setShowMore(false) otherwise, showmore button will be displayed
+
+                                      - On clicking the showmore button a handleShowMore
+                                        function will be called where it call a api 
+                                        fetch(`/api/post/${details.currentUser._id} &startIndex=${startIndex}`)
+
+                                      - If the fetched data.length < 9 then it will false the showMore state
+
+                   38. Add delete post functionlity to the dashboard                                         
+
+                                          
 
 
 

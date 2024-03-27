@@ -12,7 +12,7 @@ export const createPost = async (req, res, next) => {
     .split("")
     .join("")
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9-]/g, "");
+    .replace(/[^a-zA-Z0-9-]/g, "-");
   const newPost = new POST({
     ...req.body,
     slug,
@@ -28,7 +28,6 @@ export const createPost = async (req, res, next) => {
 
 export const getPosts = async (req, res, next) => {
   try {
-    
     // Parsing query parameter for Pagination,sorting and filtering
 
     const startIndex = parseInt(req.query.startIndex) || 0;
@@ -68,11 +67,26 @@ export const getPosts = async (req, res, next) => {
 
     // Responding with fetched posts, total post counts, and last month post counts
     res.status(200).json({
-        posts,
-        totalPosts,
-        lastMonthPosts
-    })
+      posts,
+      totalPosts,
+      lastMonthPosts,
+    });
   } catch (error) {
     next(error);
+  }
+};
+
+export const deletePost = async (req, res, next) => {
+  console.log(req.user.id, "req.user.id");
+  console.log(req.params.postId, "req.params.postId");
+  console.log(req.params.userId, "req.params.userId");
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(401, "Post cannot be deleted"));
+  }
+  try {
+    await POST.findByIdAndDelete(req.params.postId);
+    res.status(200).json("the post is deleted");
+  } catch (error) {
+    console.log(error.message);
   }
 };
