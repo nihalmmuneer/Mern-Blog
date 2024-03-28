@@ -90,3 +90,27 @@ export const deletePost = async (req, res, next) => {
     console.log(error.message);
   }
 };
+
+export const updatePosts = async (req, res, next) => {
+  if (!req.user.isAdmin || req.params.userId !== req.user.id) {
+    return next(errorHandler(401, "Post Cannot be Edited"));
+  }
+
+  try {
+    const update = await POST.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          image: req.body.image,
+          category: req.body.category,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(update);
+  } catch (error) {
+    next(error);
+  }
+};

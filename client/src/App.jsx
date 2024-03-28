@@ -10,6 +10,7 @@ import FooterComponent from "./components/FooterComponent";
 import PrivateRouter from "./components/PrivateRouter";
 import IsAdminPrivateRouteOnly from "./components/isAdminPrivateRouteOnly";
 import CreatePost from "./pages/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
 
 export default function App() {
   return (
@@ -23,8 +24,9 @@ export default function App() {
         <Route element={<PrivateRouter />}>
           <Route path="/dashboard" element={<Dashboard />}></Route>
         </Route>
-        <Route element={<IsAdminPrivateRouteOnly/>}>
-         <Route path="/create-post" element={<CreatePost/>}/>
+        <Route element={<IsAdminPrivateRouteOnly />}>
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-posts/:postId" element={<UpdatePost />} />
         </Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>

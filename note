@@ -791,9 +791,45 @@
 
                                       - If the fetched data.length < 9 then it will false the showMore state
 
-                   38. Add delete post functionlity to the dashboard                                         
+                   38. Add delete post functionlity to the dashboard          
 
-                                          
+                              Note: create a deletePost functionality in post.controller.js
+
+                               export const deletePost = (req,res,next) => {
+                                    if(!req.user.isAdmin || req.user.id !== req.params.userId){
+                                          return next(errorHandler(401,"Post cannot be deleted))
+                                    }
+                                    try {
+                                          await POST.findByIdAndDelete(req.params.postId)
+                                          res.status(200).json("Post Is Deleted)
+                                    }catch(error){
+                                          console.log(error.message)
+                                    }
+                               }            
+
+                               -Add event handlers for delete button in dashboardPosts
+                                component.
+
+                                const handleDelete = async() => {
+                                    try {
+                                          const res = await fetch(`/api/post/delete-post/${deletePostId}/${details.currentUser._id}`,{
+                                                method: "DELETE"
+                                          })
+                                          const data = res.json();
+                                          if(!res.ok){
+                                                console.log(data.message);
+                                                return
+                                          } else {
+                                                setUserPost((prev) => prev.filter((post)=> post._id !== deletePostId))
+                                          }
+                                    }catch(error) {
+                                          console.log(error.message)
+                                    }
+                                }                   
+
+                 39.Add update post functionality
+
+                              39.1                         
 
 
 
