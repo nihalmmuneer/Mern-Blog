@@ -829,7 +829,59 @@
 
                  39.Add update post functionality
 
-                              39.1                         
+                              39.1 Create a UpdatePosts.jsx
+
+                              Note:
+                                - Create a UpdatePosts page which only redirect ,
+                                  once it checks the isAdminprivateRouteOnly  criteria
+
+                                -  It is same as that of create post
+
+                                      - Here in useEffect, we will call an get api 
+                                        to fetch the details based on the postId. So it will get the details based on the given postId params.
+
+                                      -  Once we fetch the details. On clicking 
+                                         the handleSubmit will call update api 
+                                         const res  = await fetch(`/api/post/update-posts/${formData._id/${users.currentUser._id}}, {
+                                          method: "PUT",
+                                          headers: {"Content-Type":"application/json"},
+                                          body: JSON.stringify(formData)
+                                         })
+                                         const data = await res.json()
+                                         if(res.ok) {
+                                          navigate(`post/${data.slug}`)
+                                         }
+                                         else {
+                                           setPublishError(data.message)
+                                         }
+
+                                    - So inorder to call this api we need to create update post api
+                                      in post.controller.js
+
+                                          in post.controller.js
+
+                                          export const updatePosts = (req,res,next) => {
+                                                if(!req.user.isAdmin || req.params.userId !== req.user.id){
+                                                      return(errorHandler(401,"Cannot be Updated"))
+                                                }
+                                                try {
+                                                      const update = await findByIdAndUpdate(req.params.postId,{
+                                                            $set: {
+                                                                  title: req.body.title,
+                                                                  category:req.body.category,
+                                                                  image:req.body.image
+                                                            }
+                                                      }, {new:true})
+                                                      res.status(200).json(update)
+                                                }catch(error){
+                                                      next(error)
+                                                }
+                                          }     
+
+                         40. Create get Users api route
+
+                                          40.1              
+
 
 
 

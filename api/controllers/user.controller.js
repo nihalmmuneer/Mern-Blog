@@ -76,3 +76,38 @@ export const signOut = async (req, res, next) => {
     .status(200)
     .json("User signed out successfully");
 };
+
+export const getUsers = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(errorHandler(401, "Cannot Access Users Details"));
+  }
+  const startIndex = parseInt(req.query.startIndex || 0);
+  const limit = parseInt(req.query.limit || 9);
+  const sortDirection = req.query.sortDirection === "asc" ? 1 : -1;
+
+  try {
+    const getUserDetails = await User.find()
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+    console.log(getUserDetails, "getUserDetails");
+
+    const totalUser = await User.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthUsers = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    res.status(200).json({
+      getUserDetails,
+      totalUser,
+      lastMonthUsers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
