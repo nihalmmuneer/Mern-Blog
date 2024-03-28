@@ -880,8 +880,58 @@
 
                          40. Create get Users api route
 
-                                          40.1              
+                                     Note: 
 
+                                        -Create a get User api for retrieving all user 
+                                         details
+
+                                        -Inorder to get the User details we need to create
+                                          a route 
+
+                                           router.get("/get-users", verifyToken, getUsers)
+
+                                        - We need to write getUser function to in 
+                                          user.controller.js
+
+                                          ie,
+                                           export const getUser =(req,res,next) => {
+                                                if(!req.user.isAdmin){
+                                                      return next(errorHandler(401,"Cannot get User Details))
+                                                }
+                                                const startIndex = parseInt(req.query.startIndex || 0)
+                                                const limit = parseInt(req.query.limit||9)
+                                                const sortDirection = req.query.sortDirection === "asc" ? 1: -1
+
+                                                const getUserDetails = await User.find()
+                                                .sort({createdAt:sortDirection})
+                                                .skip(startIndex)
+                                                .limit(limit)
+                                                  
+                                                const getUserDetailsWithoutPassword = getUserDetais.map(users)=> {
+                                                      const {password, ...rest} = getUserDetails._doc
+                                                      return rest
+                                                }  
+
+                                                const totalUsers = User.countDocument()
+
+                                                const new = new Date();
+                                                const oneMonthAgo = new Date(
+                                                      new.getFullYear(),
+                                                      new.getMonth() - 1.
+                                                      new.getDate()
+                                                )
+                                                const lastMonthUsers = await countDocument({
+                                                      createdAt:{$gte: oneMonthAgo}
+                                                })
+                                                res.status(200).json(
+                                                      getUserDetailsWithoutPassword,
+                                                      totalUsers,
+                                                      lastMonthUsers
+                                                )
+                                           }                 
+                  42. Show users to the admin dashboard
+
+                                    42.1
 
 
 

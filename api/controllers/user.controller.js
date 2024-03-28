@@ -81,8 +81,8 @@ export const getUsers = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(401, "Cannot Access Users Details"));
   }
-  const startIndex = parseInt(req.query.startIndex || 0);
-  const limit = parseInt(req.query.limit || 9);
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = parseInt(req.query.limit) || 9;
   const sortDirection = req.query.sortDirection === "asc" ? 1 : -1;
 
   try {
@@ -91,6 +91,12 @@ export const getUsers = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
     console.log(getUserDetails, "getUserDetails");
+
+    const getUserDetailsWithoutPassword = getUserDetails.map((user) => {
+      console.log(user, "user");
+      const { password, ...rest } = user._doc;
+      return rest;
+    });
 
     const totalUser = await User.countDocuments();
     const now = new Date();
@@ -103,7 +109,7 @@ export const getUsers = async (req, res, next) => {
       createdAt: { $gte: oneMonthAgo },
     });
     res.status(200).json({
-      getUserDetails,
+      getUserDetails: getUserDetailsWithoutPassword,
       totalUser,
       lastMonthUsers,
     });
