@@ -60,7 +60,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 export const deleteUser = async (req, res, next) => {
-  if (req.user.id !== req.params.user_id) {
+  if (!req.user.isAdmin && req.user.id !== req.params.user_id) {
     return errorHandler(401, "User cannot be deleted");
   }
   try {

@@ -32,7 +32,7 @@ const DashUsers = () => {
       console.log(error.message);
     }
   };
-  console.log(users,'users')
+  console.log(users, "users");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +56,19 @@ const DashUsers = () => {
   }, [details.currentUser?._id]);
   const handleDelete = async () => {
     console.log(deleteUserId, "deleteUserId");
+    try {
+      const res = await fetch(`/api/user/delete/${deleteUserId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      console.log(data);
+      if (res.ok) {
+        setUsers((prev) => prev.filter((user) => user._id !== deleteUserId));
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div

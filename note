@@ -931,7 +931,35 @@
                                            }                 
                   42. Show users to the admin dashboard
 
-                                    42.1
+                                    Note: 
+                                      - Create a component named DashUsers the side bar will redirect
+                                        to the component when the active(tab === "users")
 
+                                      - In this component on useEffect() we will call the get Fetch Data
+                                        to retrieve all user details.
+
+                                      - when the details less than the total number of documents then
+                                        showMore button will be displayed. On clicking the showMore
+                                        button another set of remaining documents will be displayed
+
+
+                  43. Add delete User functionality to the admin user
+
+                                    Note:
+
+                                       - On DashboardUsers onClicking the delete button
+                                         it will call a function handleDelete.
+
+                                        - On handleDelete function , it calls an delete api by passing userid along with the api call.
+
+                                        -  it will filterout the users by removing the 
+                                           delete account
+
+                                           ie, 
+                                             setUsers(prev=>prev.filter(user)=>user._Id !== deleteUserId)
+
+                                             this is how we filterout the deleted data
+                                             
+                                                                           
 
 
