@@ -84,11 +84,11 @@ const UpdatePost = () => {
   };
 
   const handlePublish = async (e) => {
+    console.log(formData, "formData-publish");
     e.preventDefault();
     try {
-      console.log("hello");
       const res = await fetch(
-        `/api/post/update-posts/${formData?._id}/${users.currentUser._id}`,
+        `/api/post/update-posts/${details?.postId}/${users.currentUser._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -96,17 +96,19 @@ const UpdatePost = () => {
         }
       );
       const data = await res.json();
-      console.log(data,'fetch-data')
+      console.log(data, "fetch-data");
       if (!res.ok) {
         console.log(data.message, "data");
         setPublishError(data.message);
         return;
       } else {
         console.log(data, "data");
-        navigate(`/post/${data.slug}`);
+        setFormData(data.posts);
+        setPublishError(null);
+        navigate(`/posts/${data.slug}`);
       }
     } catch (error) {
-      setPublishError("Something Went Wrong !");
+      setPublishError(error.message);
       return;
     }
   };
@@ -173,10 +175,11 @@ const UpdatePost = () => {
           {imageUploadError && (
             <Alert color="failure">{imageUploadError}</Alert>
           )}
-          {formData.image && (
+          {formData && formData.image && (
             <img
-              src={formData.image}
+              src={formData && formData.image}
               alt="form-img"
+              value={formData.image}
               className="h-76  w-full object-fill"
             />
           )}
