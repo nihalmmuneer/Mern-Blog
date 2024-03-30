@@ -33,3 +33,6 @@ body {
   text-decoration: underline;
   color: rgba(73, 149, 199);
 }
+.dark .post-content a {
+  color: red;
+}
