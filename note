@@ -959,7 +959,27 @@
                                              setUsers(prev=>prev.filter(user)=>user._Id !== deleteUserId)
 
                                              this is how we filterout the deleted data
-                                             
-                                                                           
+                        
+                  44. Complete post page functionality
+
+                              44.1  Create a post page 
+
+                                    - call a get post based on the slug.
+
+                                    - set a loading function to load before the data is fetched
+
+                                    - Display  title, category , image and content for the
+                                      post page get from the api call
+
+                   45. Add call to action to the post page
+
+                              45.1 Created a component named CallToAction.jsx
+                                    - Build a Ui including h1,p,button and image and called the 
+                                      component inside the post page.
+ 
+
+                  46. Add comment section to the post page
+                  
+
 
 

@@ -14,7 +14,11 @@ const CallToAction = () => {
           gradientDuoTone="purpleToPink"
           className="w-full rounded-tl-2xl rounded-bl-none rounded-tr-none  rounded-br-2xl"
         >
-          <a href="https://www.100jsprojects.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.100jsprojects.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             100 JavaScript Projects
           </a>
         </Button>

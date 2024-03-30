@@ -2,6 +2,7 @@ import { Spinner, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
+import CommentSection from "../components/CommentSection";
 const PostPage = () => {
   const { postSlug } = useParams();
   const [post, setPost] = useState();
@@ -63,8 +64,12 @@ const PostPage = () => {
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         <span>{post && (post.content.length / 1000).toFixed(0)} mins read</span>
       </div>
-      <div className="mx-auto max-w-2xl p-3 w-full post-content" dangerouslySetInnerHTML={{ __html: post && post.content }}></div>
-      <CallToAction/>
+      <div
+        className="mx-auto max-w-2xl p-3 w-full post-content"
+        dangerouslySetInnerHTML={{ __html: post && post.content }}
+      ></div>
+      <CallToAction />
+      <CommentSection postId={post && post._id} />
     </div>
   );
 };

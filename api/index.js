@@ -6,6 +6,7 @@ import userRouter from "./routes/user.route.js";
 import signRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import postRouter from "./routes/post.route.js";
+import commentRouter from "./routes/comment.route.js";
 // const express = require("express");
 
 // inorder to use env file
@@ -40,6 +41,8 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", signRouter);
 
 app.use("/api/post", postRouter);
+
+app.use("/api/comment", commentRouter);
 
 // middleware to handle errors
 
