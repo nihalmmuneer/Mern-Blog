@@ -979,7 +979,15 @@
  
 
                   46. Add comment section to the post page
-                  
+                                    - Add a create comment api 
+                                    - create a comment model, comment.route.js, comment.controller.js
 
+                                    -  create comment Section component in the front end which is called
+                                        inside the post page
+
+                  
+                  47.Show the comments of a post
+
+                                    
 
 

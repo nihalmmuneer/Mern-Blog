@@ -66,11 +66,9 @@ const CreatePost = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message, "data");
         setPublishError(data.message);
         return;
       } else {
-        console.log(data, "data");
         navigate(`/${data.slug}`);
       }
     } catch (error) {
@@ -78,8 +76,6 @@ const CreatePost = () => {
       return;
     }
   };
-  console.log(formData, "formData");
-  console.log(file, "file");
   return (
     <div className=" p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className=" text-3xl font-semibold text-center my-7">

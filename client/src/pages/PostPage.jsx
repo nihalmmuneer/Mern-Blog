@@ -10,7 +10,6 @@ const PostPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(postSlug);
     setLoading(true);
     const fetchPost = async () => {
       try {
@@ -27,7 +26,6 @@ const PostPage = () => {
           setPost(data.posts[0]);
           setLoading(false);
           setError(false);
-          console.log(data, "data");
         }
       } catch (error) {
         console.log(error.message);
@@ -36,7 +34,6 @@ const PostPage = () => {
     };
     fetchPost();
   }, [postSlug]);
-  console.log(post, "post");
   console.log(error);
   if (loading) {
     return (
@@ -69,7 +66,7 @@ const PostPage = () => {
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
       <CallToAction />
-      <CommentSection postId={post && post._id} />
+      {post && <CommentSection postId={post && post?._id} />}
     </div>
   );
 };

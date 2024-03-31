@@ -117,3 +117,16 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
+
+export const userComments = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return next(errorHandler(401, "User does not exist"));
+    }
+    const { password, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};

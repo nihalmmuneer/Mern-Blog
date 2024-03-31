@@ -5,6 +5,7 @@ import { verifyToken } from "../utils/verifyUser.js";
 import { deleteUser } from "../controllers/user.controller.js";
 import { signOut } from "../controllers/user.controller.js";
 import { getUsers } from "../controllers/user.controller.js";
+import { userComments } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.put("/user-update/:user_id", verifyToken, updateUser);
 router.delete("/delete/:user_id", verifyToken, deleteUser);
 router.post("/signout", signOut);
 router.get("/get-users", verifyToken, getUsers)
+router.get("/:userId", userComments)
 
 export default router;

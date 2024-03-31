@@ -13,7 +13,6 @@ const DashPosts = () => {
   const [showModal, setShowModal] = useState(false);
   const [deletePostId, setDeletePostId] = useState("");
   const details = useSelector((state) => state.user.user);
-  console.log(userPosts, "userPosts");
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
 
@@ -41,7 +40,6 @@ const DashPosts = () => {
         const data = await res.json();
         if (res.ok) {
           setUserPosts(data.posts);
-          console.log(data.posts.length, "data-length");
           if (data.posts.length <= 9) {
             setShowMore(false);
           }
@@ -64,7 +62,6 @@ const DashPosts = () => {
         }
       );
       const data = await res.json();
-      console.log(data, "data");
 
       if (res.ok) {
         setUserPosts((prev) =>

@@ -2,14 +2,33 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Comments from "./Comments";
 
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
+  const [postComment, setPostComment] = useState([]);
   const [commentError, setCommentError] = useState(null);
-  console.log(postId);
   const details = useSelector((state) => state.user.user);
-  console.log(comment);
+  console.log(postComment, "postComment");
+  useEffect(() => {
+    const getPostComment = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        const data = await res.json();
+        if (res.ok) {
+          setPostComment(data);
+          setCommentError(null);
+        }
+        if (!res.ok) {
+          setCommentError(data.message);
+        }
+      } catch (error) {
+        setCommentError(error.message);
+      }
+    };
+    getPostComment();
+  }, [postId]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +47,7 @@ const CommentSection = ({ postId }) => {
       const data = await res.json();
       if (res.ok) {
         setComment("");
-        console.log(data);
+        setPostComment([data.newComment, ...postComment]);
       }
       if (!res.ok) {
         setCommentError(data?.message);
@@ -92,11 +111,25 @@ const CommentSection = ({ postId }) => {
           {commentError && <Alert color="failure"> {commentError}</Alert>}
         </form>
       )}
+      {postComment && postComment?.length === 0 ? (
+        <div className="my-4">No Comments Yet !!!!</div>
+      ) : (
+        <div className="my-4 flex gap-1 mx-auto max-w-2xl w-full items-center">
+          <p className="text-sm font-medium">Comments</p>
+          <div className="text-sm border border-gray-400 py-1 font-medium px-2 ">
+            {postComment && postComment?.length}
+          </div>
+        </div>
+      )}
+      {postComment &&
+        postComment.map((posts) => (
+          <Comments key={posts._id} posts={[posts]} />
+        ))}
     </>
   );
 };
 
 CommentSection.propTypes = {
-  postId: PropTypes.node.isRequired, //ensures that postId is provided and is React node
+  postId: PropTypes.string.isRequired,
 };
 export default CommentSection;

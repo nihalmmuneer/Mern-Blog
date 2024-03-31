@@ -37,9 +37,7 @@ const DashProfile = () => {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(null);
   const details = useSelector((state) => state.user.user);
-  console.log(imageUploadProgress, errorMessage);
   const handleFilePicker = (e) => {
-    console.log(e.target.files[0], "image-file");
     const file = e.target.files[0];
     if (file) {
       SetSelectedImage(file);
@@ -49,7 +47,6 @@ const DashProfile = () => {
 
   useEffect(() => {
     if (selectedImage) {
-      console.log("upload image ...");
       uploadImage();
     }
 
@@ -99,10 +96,8 @@ const DashProfile = () => {
   };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    console.log(formData, "formData");
   };
   const handleSubmission = async (e) => {
-    console.log("hello");
     setErrorMessage(null);
     setUpdateError(null);
     setUpdateSuccess(null);
@@ -138,7 +133,6 @@ const DashProfile = () => {
         setUpdateError(null);
       }
     } catch (error) {
-      console.log(error);
       dispatch(userUpdateFailure(error.message));
       setUpdateError(error.message);
       setUpdateSuccess(null);
@@ -176,7 +170,6 @@ const DashProfile = () => {
       console.log(error);
     }
   };
-  console.log(selectedImage, selectedImageUrl);
   return (
     <div className="  flex flex-col items-center justify-center md:max-w-lg md: mx-auto p-3">
       <h1 className="text-center font-semibold text-3xl py-7 ">Profile</h1>
