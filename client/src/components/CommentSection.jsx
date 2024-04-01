@@ -96,6 +96,25 @@ const CommentSection = ({ postId }) => {
       console.log(error);
     }
   };
+  const handleEditedSave = (comments, editedContent) => {
+    console.log(comments,'comments')
+    console.log(editedContent, "editedContent");
+    console.log(comments[0]._id, "comments[0]._id");
+    {
+      setPostComment( postComment.map((comment) => {
+        console.log(comment._id, "comment.id-map");
+        if (comment._id === comments[0]._id) {
+          console.log("succees");
+          return {
+            ...comment,
+            content: editedContent,
+          };
+        } else {
+          return comment;
+        }
+      }));
+    }
+  };
   return (
     <>
       {details?.currentUser ? (
@@ -161,7 +180,12 @@ const CommentSection = ({ postId }) => {
       )}
       {postComment &&
         postComment.map((posts) => (
-          <Comments key={posts._id} posts={[posts]} onLike={handleLikes} />
+          <Comments
+            key={posts._id}
+            posts={[posts]}
+            onLike={handleLikes}
+            onEditSave={handleEditedSave}
+          />
         ))}
     </>
   );

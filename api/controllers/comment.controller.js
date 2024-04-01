@@ -41,7 +41,7 @@ export const getComments = async (req, res, next) => {
 
 export const likeComment = async (req, res, next) => {
   try {
-    console.log(req.params.commentId)
+    console.log(req.params.commentId);
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
       return next(errorHandler(401, "Comments not found"));
@@ -56,6 +56,29 @@ export const likeComment = async (req, res, next) => {
     }
     await comment.save();
     res.status(200).json(comment);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const editComment = async (req, res, next) => {
+  const comment = await Comment.findById(req.params.commentId);
+  if (!comment) {
+    return next(errorHandler(401, "comment not found"));
+  }
+  if (req.user.id !== comment.userId && !req.user.isAdmin) {
+    return next(errorHandler(401, "Editing comment is not permitted"));
+  }
+  try {
+    const commentEdit = await Comment.findByIdAndUpdate(
+      req.params.commentId,
+      {
+        content: req.body.content,
+      },
+      { new: true }
+    );
+    res.status(200).json(commentEdit);
+
   } catch (error) {
     next(error);
   }

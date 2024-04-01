@@ -996,7 +996,22 @@
                                             user.controller.js inorder to get the userData from
                                             database
 
-                  48. Add like functionality to the comment component                          
+                  48. Add like functionality to the comment component
+
+                                    - Created routing for like for comment
+                                    - router.put("/likeComment/:commentId,likeComment)    
+                                    - in comment.controller.js,
+                                         - we check the database to findById(req.params.commentId)
+                                         - we check the userId is included in the likes array
+                                                - if exists, reduce the like -1 and remove the user
+                                                - if not , increment the like +1 and push userId into  
+                                                  like array.
+
+
+                  49. Add Edit Functionality to the comment component
+
+                                    -                                
+
 
 
 
