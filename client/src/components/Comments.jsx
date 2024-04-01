@@ -5,7 +5,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 
-const Comments = ({ posts, onLike, onEditSave }) => {
+const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
   const [userComment, setUserComment] = useState(null);
   const details = useSelector((state) => state.user.user);
   const [edit, setEdit] = useState(false);
@@ -38,6 +38,7 @@ const Comments = ({ posts, onLike, onEditSave }) => {
   const handleEdit = () => {
     setEdit(true);
   };
+
   const handleSave = async() => {
         try{
             const res = await fetch(`/api/comment/editComment/${posts[0]?._id}`, {
@@ -115,6 +116,7 @@ const Comments = ({ posts, onLike, onEditSave }) => {
                 {(details.currentUser &&
                   details.currentUser._Id === posts[0].userId) ||
                   (details.currentUser.isAdmin && (
+                    <>
                     <button
                       type="button"
                       className="text-gray-400 hover:text-blue-500"
@@ -122,6 +124,14 @@ const Comments = ({ posts, onLike, onEditSave }) => {
                     >
                       Edit
                     </button>
+                    <button
+                      type="button"
+                      className="text-gray-400 hover:text-red-500"
+                      onClick={()=>onDelete(posts[0]._id)}
+                    >
+                      Delete
+                    </button>
+                    </>
                   ))}
               </div>
             </div>
@@ -135,7 +145,8 @@ const Comments = ({ posts, onLike, onEditSave }) => {
 Comments.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   onLike: PropTypes.func.isRequired,
-  onEditSave: PropTypes.func.isRequired
+  onEditSave: PropTypes.func.isRequired,
+  onDelete:PropTypes.func.isRequired
 
 };
 export default Comments;

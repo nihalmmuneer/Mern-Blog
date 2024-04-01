@@ -1010,6 +1010,26 @@
 
                   49. Add Edit Functionality to the comment component
 
+                              - Here we created router for editing the comment content
+
+                              -findByIdAndUpdate the database Comment using commentId
+
+                                 ie, const commentEdit = await Comment.FindByIdAndUpdate(req.params.commentId,{
+                                    content: req.body.content
+                                 })
+                                 res.status(200).json(commentEdit)
+
+                              - On frontend, once we edit the content and click on save it will 
+                                call an api to update and it will call the onEdit function we called
+                                from the commentSection. 
+                                
+                                   
+                  50. Add delete functionality to the comment section
+
+                              51.1             
+
+
+
                                     -                                
 
 

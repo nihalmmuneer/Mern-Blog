@@ -5,11 +5,15 @@ import { Alert, Button, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import Comments from "./Comments";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "flowbite-react";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [postComment, setPostComment] = useState([]);
   const [commentError, setCommentError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
 
   const details = useSelector((state) => state.user.user);
@@ -61,6 +65,26 @@ const CommentSection = ({ postId }) => {
       return;
     }
   };
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setPostComment((prev) =>
+          prev.filter((comment) => comment._id !== commentId)
+        );
+        setShowModal(false);
+      }
+      if (!res.ok) {
+        console.log(data);
+        return;
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   const handleLikes = async (commentId) => {
     console.log(commentId, "commentId");
     if (!details?.currentUser) {
@@ -97,22 +121,24 @@ const CommentSection = ({ postId }) => {
     }
   };
   const handleEditedSave = (comments, editedContent) => {
-    console.log(comments,'comments')
+    console.log(comments, "comments");
     console.log(editedContent, "editedContent");
     console.log(comments[0]._id, "comments[0]._id");
     {
-      setPostComment( postComment.map((comment) => {
-        console.log(comment._id, "comment.id-map");
-        if (comment._id === comments[0]._id) {
-          console.log("succees");
-          return {
-            ...comment,
-            content: editedContent,
-          };
-        } else {
-          return comment;
-        }
-      }));
+      setPostComment(
+        postComment.map((comment) => {
+          console.log(comment._id, "comment.id-map");
+          if (comment._id === comments[0]._id) {
+            console.log("succees");
+            return {
+              ...comment,
+              content: editedContent,
+            };
+          } else {
+            return comment;
+          }
+        })
+      );
     }
   };
   return (
@@ -178,6 +204,33 @@ const CommentSection = ({ postId }) => {
           </div>
         </div>
       )}
+      <Modal
+        show={showModal}
+        size="md"
+        popup
+        onClose={() => setShowModal(false)}
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <AiOutlineExclamationCircle className="h-14 w-14 text-gray-500 mx-auto dark:text-gray-200 mb-1" />
+            <h3 className="text-gray-500 text-lg dark:text-gray-200 mb-6 mt-4">
+              Are You sure you want to delete your comment?
+            </h3>
+            <div className="flex justify-center gap-4 mb-4">
+              <Button
+                color="failure"
+                onClick={() => handleDeleteComment(commentToDelete)}
+              >
+                Yes, I&apos;m sure{" "}
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       {postComment &&
         postComment.map((posts) => (
           <Comments
@@ -185,6 +238,10 @@ const CommentSection = ({ postId }) => {
             posts={[posts]}
             onLike={handleLikes}
             onEditSave={handleEditedSave}
+            onDelete={(commentId) => {
+              setShowModal(true);
+              setCommentToDelete(commentId);
+            }}
           />
         ))}
     </>
