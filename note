@@ -988,6 +988,16 @@
                   
                   47.Show the comments of a post
 
-                                    
+                                    - Create a component comment.jsx
+
+                                          - call the api to fetch the user using the userId
+                                          - on success it will provide the details of username
+                                          - create a route in user.route.js and function in
+                                            user.controller.js inorder to get the userData from
+                                            database
+
+                  48. Add like functionality to the comment component                          
+
+
 
 

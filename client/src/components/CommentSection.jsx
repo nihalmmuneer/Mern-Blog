@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import Comments from "./Comments";
+import { useNavigate } from "react-router-dom";
 
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [postComment, setPostComment] = useState([]);
   const [commentError, setCommentError] = useState(null);
+  const navigate = useNavigate();
+
   const details = useSelector((state) => state.user.user);
   console.log(postComment, "postComment");
   useEffect(() => {
@@ -56,6 +59,41 @@ const CommentSection = ({ postId }) => {
     } catch (error) {
       setCommentError(error?.message);
       return;
+    }
+  };
+  const handleLikes = async (commentId) => {
+    console.log(commentId, "commentId");
+    if (!details?.currentUser) {
+      navigate("/sign-in");
+      return;
+    }
+    try {
+      const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+        method: "PUT",
+      });
+      const data = await res.json();
+      setPostComment(
+        postComment.map((comment) => {
+          console.log(comment, "comment");
+          console.log(comment._id, "comment._id");
+          console.log(commentId, "commentId");
+          if (comment._id === commentId) {
+            return {
+              ...comment,
+              likes: data?.likes,
+              numberOfLikes: data.likes?.length,
+            };
+          } else {
+            return comment;
+          }
+        })
+      );
+      console.log(data, "comment-section-data");
+      if (res.ok) {
+        console.log(data, "comment-section-data");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -123,7 +161,7 @@ const CommentSection = ({ postId }) => {
       )}
       {postComment &&
         postComment.map((posts) => (
-          <Comments key={posts._id} posts={[posts]} />
+          <Comments key={posts._id} posts={[posts]} onLike={handleLikes} />
         ))}
     </>
   );
