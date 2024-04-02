@@ -1039,7 +1039,15 @@
 
                   52. Add comment section to the admin dashboard
 
-                                                                                       
+                                    Note: 
+                                       - created a sidebar item of comment section to the sidebar
+                                       - created a getcomment route api to fetch comment lists
+                                       - call the get comment list api in the front 
+
+                  53. Add dashboard overview to the admin dashboard
+
+                                    53.1
+                                                                                                             
 
 
 
