@@ -8,11 +8,11 @@ const PostCard = ({ article }) => {
         <img
           src={article.image}
           alt={article.title}
-          className=" h-[300px] w-full object-cover z-20 group-hover:h-[260px] transition-all duration-300"
+          className=" h-[300px] w-[500px] lg:w-full object-cover z-20 group-hover:h-[260px] transition-all duration-300"
         />
       </Link>
       <div className=" flex flex-col gap-2 p-2 ">
-        <p className="text-lg font-semibold line-clamp-2">{article.title}</p>
+        <p className="text-lg font-semibold line-clamp-1">{article.title}</p>
         <span className="italic text-sm">{article.category}</span>
         <Link
           to={`/posts/${article.slug}`}

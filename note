@@ -1046,8 +1046,22 @@
 
                   53. Add dashboard overview to the admin dashboard
 
-                                    53.1
-                                                                                                             
+                                    53.1 create a dashboard Sidebar item 
+
+                                    - Create dashboardComp where it displays TotalUsers,
+                                      TotalComments, TotalPosts details.
+
+                                    - It displays Total User details list and username in
+                                      a table
+
+                                    - It also displays Total Comments List with comment content and 
+                                      number of likes.
+
+                                    - It also displays Total Posts List with post image, post title and post category
+
+                  54. Complete the Home Page
+                                          
+
 
 
 
