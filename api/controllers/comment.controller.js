@@ -97,3 +97,40 @@ export const deleteComment = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getcomments = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(errorHandler(401, "Not possible to get comments list"));
+  }
+  const startIndex = parseInt(req.params.startIndex) || 0;
+  const limit = parseInt(req.params.limit) || 9;
+  const sortDirection = req.params.sort === "asc" ? 1 : -1;
+
+  const comments = await Comment.find()
+    .sort({ createdAt: sortDirection })
+    .skip(startIndex)
+    .limit(limit);
+
+  // total number of comments
+
+  const totalComments = await Comment.countDocuments();
+
+  // Counting number of comments from last month
+
+  const now = new Date();
+
+  const oneMonthAgo = new Date(
+    now.getFullYear(),
+    now.getMonth() - 1,
+    now.getDate()
+  );
+
+  const lastMonthComments = await Comment.countDocuments({
+    createdAt: { $gte: oneMonthAgo },
+  });
+  res.status(200).json({
+    comments,
+    totalComments,
+    lastMonthComments,
+  });
+};

@@ -93,7 +93,7 @@ const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
           <>
             <p className="text-sm self-start">{posts && posts[0]?.content}</p>
             <div className="flex my-1 px-1">
-              <div className="flex text-sm gap-2 items-center border-t border-gray-700 max-w-fit dark:border-gray-500 mt-1 pt-2">
+              <div className="flex text-sm gap-1 items-center border-t border-gray-400 max-w-fit dark:border-gray-500 mt-1 pt-2">
                 <button
                   type="button"
                   className={`text-gray-500 hover:text-blue-500 ${

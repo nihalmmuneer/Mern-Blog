@@ -1,5 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import {
+  HiAnnotation,
   HiArrowSmRight,
   HiDocument,
   HiOutlineUserGroup,
@@ -68,6 +69,14 @@ const DashSideBar = () => {
                   icon={HiOutlineUserGroup}
                 >
                   Users
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=comments">
+                <Sidebar.Item
+                  active={tab === "comments"}
+                  icon={HiAnnotation}
+                >
+                  Comments
                 </Sidebar.Item>
               </Link>
             </>

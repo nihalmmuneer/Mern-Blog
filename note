@@ -1026,7 +1026,20 @@
                                    
                   50. Add delete functionality to the comment section
 
-                              51.1             
+                              51.1 Add delete route and functions inside the comment.route.js
+                                   and comment.controller.js  
+
+                              52.2 In Front-end, once we click on the delete button inside the
+                                   comment.jsx it will call a callback functions inside contentSection.jsx, that will call an api to delete the comment based on commentId passed as params
+
+
+                  51. Add recent article section to the post page
+
+                                    51.2 created  a post card.jsx
+
+                  52. Add comment section to the admin dashboard
+
+                                                                                       
 
 
 
