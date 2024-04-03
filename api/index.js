@@ -7,6 +7,7 @@ import signRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import postRouter from "./routes/post.route.js";
 import commentRouter from "./routes/comment.route.js";
+import path from "path";
 // const express = require("express");
 
 // inorder to use env file
@@ -20,6 +21,8 @@ mongoose
   .catch((err) => {
     console.log(err, "error on connecting");
   });
+
+const __dirname = path.resolve(); //To get the directory of the project located anywhere
 
 // server app create using express
 const app = express();
@@ -43,6 +46,12 @@ app.use("/api/auth", signRouter);
 app.use("/api/post", postRouter);
 
 app.use("/api/comment", commentRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 // middleware to handle errors
 

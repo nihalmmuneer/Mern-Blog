@@ -1089,6 +1089,16 @@
                   
                   56. Complete about and project pages
 
+                                          - Created a Ui for about and project page
+                                          - About page includes:
+                                                - title and paragraphs
+                                          - Project page includes:
+                                                - title, paragraph and CallToAction
+
+
+                  57.Deploy to render
+                                                      
+
 
 
 
