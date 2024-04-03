@@ -47,6 +47,9 @@ export default function Home() {
               {posts &&
                 posts.map((post) => <PostCard key={post._id} article={post} />)}
             </div>
+            <Link to="/search" className="hover:underline text-teal-500 text-sm ">
+              View all posts
+            </Link>
           </div>
         )}
       </div>

@@ -1060,7 +1060,14 @@
                                     - It also displays Total Posts List with post image, post title and post category
 
                   54. Complete the Home Page
-                                          
+                                    - Created Home Page with title, description, CallBackAction
+
+                                    - call getPosts api inorder to fetch the list of posts to be 
+                                      displayed
+
+                                    - Display the PostCard under the CallBackACtion
+
+                  55. Complete the search page                                            
 
 
 
