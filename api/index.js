@@ -17,7 +17,7 @@ mongoose
   .connect(process.env.MONGO)
   .then(() => {
     console.log("Mongoose connected successfully");
-  })
+  }, 6000)
   .catch((err) => {
     console.log(err, "error on connecting");
   });
