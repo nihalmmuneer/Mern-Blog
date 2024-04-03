@@ -14,7 +14,7 @@ import path from "path";
 dotenv.config();
 // connect to the database
 mongoose
-  .connect(process.env.MONGODB)
+  .connect(process.env.MONGO)
   .then(() => {
     console.log("Mongoose connected successfully");
   }, 6000)
