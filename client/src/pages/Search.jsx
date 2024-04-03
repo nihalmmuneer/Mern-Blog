@@ -107,7 +107,7 @@ const Search = () => {
           <div className="flex items-center gap-2">
             <label className="font-bold text-sm">SearchTerm:</label>
             <TextInput
-              placeholder="select something.."
+              placeholder="Search..."
               id="searchTerm"
               type="text"
               value={sidebarData.searchTerm}

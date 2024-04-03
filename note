@@ -1067,7 +1067,28 @@
 
                                     - Display the PostCard under the CallBackACtion
 
-                  55. Complete the search page                                            
+                  55. Complete the search page  
+
+                                    - Created SeachPage with two sections
+                                        - 1. Sidebar for apply fiters
+                                              - includes:
+                                                      1. searchTerm
+                                                      2. sort
+                                                      3. category
+                                                      4.Apply filter button
+                                          2.Posts based on the filter
+                                                - if posts.length===0
+                                                      - display No Posts Yet
+
+                                                - if loading 
+                                                     - display spinner
+
+                                                - if !loading and posts available then map through 
+                                                  it and display postCard
+
+                  
+                  56. Complete about and project pages
+
 
 
 
