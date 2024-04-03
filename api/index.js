@@ -13,18 +13,15 @@ import path from "path";
 // inorder to use env file
 dotenv.config();
 // connect to the database
-// mongoose
-//   .connect(process.env.MONGO)
-//   .then(() => {
-//     console.log("Mongoose connected successfully");
-//   }, 6000)
-//   .catch((err) => {
-//     console.log(err, "error on connecting");
-//   });
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
+    console.log("Mongoose connected successfully");
+  }, 6000)
+  .catch((err) => {
+    console.log(err, "error on connecting");
+  });
 
-mongoose.connect("mongodb://127.0.0.1:27017?directConnection=true").then(() => {
-  console.log("connected to mongo successfully");
-}, 6000);
 const __dirname = path.resolve(); //To get the directory of the project located anywhere
 
 // server app create using express
