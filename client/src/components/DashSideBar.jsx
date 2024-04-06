@@ -35,9 +35,7 @@ const DashSideBar = () => {
       const data = await res.json();
       if (res.ok) {
         dispatch(signOutSuccess(data));
-      } else {
-        console.log(data.message);
-      }
+      } 
     } catch (error) {
       console.log(error);
     }

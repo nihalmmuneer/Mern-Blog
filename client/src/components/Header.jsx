@@ -19,12 +19,10 @@ export default function Header() {
   const path = useLocation().pathname;
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(location, "location");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const details = useSelector((state) => state.user.user);
   const theme = useSelector((state) => state.user.theme);
-  console.log(details, "details");
   if (!details) {
     console.log("no details");
   }
@@ -41,12 +39,10 @@ export default function Header() {
       const res = await fetch("api/user/signout", {
         method: "POST",
       });
-      const data = res.json();
+      const data = await res.json();
       if (res.ok) {
         dispatch(signOutSuccess(data));
-      } else {
-        console.log(data.message);
-      }
+      } 
     } catch (error) {
       console.log(error);
     }

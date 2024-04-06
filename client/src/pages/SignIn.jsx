@@ -14,11 +14,11 @@ export default function SignIn() {
   const [formData, setFormData] = useState("");
   // const [errorMessage, setErrorMessage] = useState("");
   // const [loading, setLoading] = useState("");
-  const { loading, error: errorMessage } = useSelector((state) => state.user); //Redux store state under the user slice.
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+ //Redux store state under the user slice.
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    console.log(formData, "formData");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,10 +37,9 @@ export default function SignIn() {
       });
       const data = await res.json();
       // setLoading(false);
-      console.log(data, "data");
       if (data.success === false) {
         // return setErrorMessage(data.message);
-        dispatch(signInFailure(data.message));
+        dispatch(signInFailure(data));
       }
       // setLoading(false); already setting loading:false in signInFailure
       if (res.ok) {
@@ -63,7 +62,7 @@ export default function SignIn() {
         <div className="flex-1">
           <Link to="/" className=" font-bold text-4xl dark:text-white">
             <span className=" mr-1 text-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white px-2 py-1">
-              Nihals
+              Nihal&apos;s
             </span>
             Blog
           </Link>
@@ -107,7 +106,7 @@ export default function SignIn() {
                 <span>Sign In</span>
               )}
             </Button>
-            <OAuth/>
+            <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont have an account?</span>

@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 const CallToAction = () => {
   return (
-    <div className="flex items-center  w-full flex-col border border-teal-500 p-4 rounded-tl-2xl rounded-bl-none rounded-tr-none rounded-br-2xl  text-center  mx-auto gap-6 lg:flex-row">
+    <div className="flex items-center  w-full flex-col lg:max-w-3xl border border-teal-500 p-4 rounded-tl-2xl rounded-bl-none rounded-tr-none rounded-br-2xl  text-center  mx-auto gap-6 lg:flex-row">
       <div className="flex flex-col max-auto gap-2 flex-1 item-center ">
         <h1 className=" text-2xl self-start ">
           Want to learn more about Javascript?

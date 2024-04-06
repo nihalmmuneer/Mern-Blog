@@ -12,12 +12,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    console.log(location.search, "location-search");
     const tabFromUrl = urlParams.get("tab");
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
-    console.log(tab, "tabFromUrl");
   }, [location.search, tab]);
   return (
     <div className="min-h-screen flex  flex-col md:flex-row">

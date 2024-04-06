@@ -5,7 +5,6 @@ import PostCard from "../components/PostCard";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  console.log(posts, "posts");
   useEffect(() => {
     try {
       const fetchPosts = async () => {

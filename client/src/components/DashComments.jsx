@@ -12,10 +12,8 @@ const DashComments = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState("");
   const details = useSelector((state) => state.user.user);
-  console.log(comments, "comments");
   const handleShowMore = async () => {
     const startIndex = comments.length;
-    console.log(startIndex, "startIndex");
 
     try {
       const res = await fetch(
@@ -32,16 +30,13 @@ const DashComments = () => {
       console.log(error.message);
     }
   };
-  console.log(comments, "users");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("/api/comment/getcomments");
         const data = await res.json();
-        console.log(data.comments, "get-comments");
         if (res.ok) {
           setComments(data.comments);
-          console.log(data.comments.length, "data-length");
           if (data.comments.length < 9) {
             setShowMore(false);
           }
@@ -55,13 +50,10 @@ const DashComments = () => {
     }
   }, [details.currentUser?._id]);
   const handleDelete = async () => {
-    console.log(deleteCommentId, "deleteUserId");
     try {
       const res = await fetch(`/api/comment/deleteComment/${deleteCommentId}`, {
         method: "DELETE",
       });
-      const data = await res.json();
-      console.log(data);
       if (res.ok) {
         setComments((prev) =>
           prev.filter((comment) => comment._id !== deleteCommentId)

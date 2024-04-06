@@ -17,7 +17,6 @@ const CommentSection = ({ postId }) => {
   const navigate = useNavigate();
 
   const details = useSelector((state) => state.user.user);
-  console.log(postComment, "postComment");
   useEffect(() => {
     const getPostComment = async () => {
       try {
@@ -70,7 +69,6 @@ const CommentSection = ({ postId }) => {
       const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
         method: "DELETE",
       });
-      const data = await res.json();
       if (res.ok) {
         setPostComment((prev) =>
           prev.filter((comment) => comment._id !== commentId)
@@ -78,7 +76,6 @@ const CommentSection = ({ postId }) => {
         setShowModal(false);
       }
       if (!res.ok) {
-        console.log(data);
         return;
       }
     } catch (error) {
@@ -86,7 +83,6 @@ const CommentSection = ({ postId }) => {
     }
   };
   const handleLikes = async (commentId) => {
-    console.log(commentId, "commentId");
     if (!details?.currentUser) {
       navigate("/sign-in");
       return;
@@ -98,9 +94,6 @@ const CommentSection = ({ postId }) => {
       const data = await res.json();
       setPostComment(
         postComment.map((comment) => {
-          console.log(comment, "comment");
-          console.log(comment._id, "comment._id");
-          console.log(commentId, "commentId");
           if (comment._id === commentId) {
             return {
               ...comment,
@@ -112,24 +105,15 @@ const CommentSection = ({ postId }) => {
           }
         })
       );
-      console.log(data, "comment-section-data");
-      if (res.ok) {
-        console.log(data, "comment-section-data");
-      }
     } catch (error) {
       console.log(error);
     }
   };
   const handleEditedSave = (comments, editedContent) => {
-    console.log(comments, "comments");
-    console.log(editedContent, "editedContent");
-    console.log(comments[0]._id, "comments[0]._id");
     {
       setPostComment(
         postComment.map((comment) => {
-          console.log(comment._id, "comment.id-map");
           if (comment._id === comments[0]._id) {
-            console.log("succees");
             return {
               ...comment,
               content: editedContent,

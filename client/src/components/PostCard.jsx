@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 const PostCard = ({ article }) => {
-  console.log(article, "article");
   return (
     <div className="group flex flex-col relative h-[400px] border overflow-hidden border-teal-500 mx-auto rounded-lg sm:w-[300px] max-w-sm  shadow-lg  my-4">
       <Link to={`/posts/${article.slug}`}>
         <img
           src={article.image}
           alt={article.title}
-          className=" h-[300px] w-[500px] lg:w-full object-cover z-20 group-hover:h-[260px] transition-all duration-300"
+          className=" h-[300px] w-[500px] lg:w-full object-cover  group-hover:h-[260px] transition-all duration-300"
         />
       </Link>
       <div className=" flex flex-col gap-2 p-2 ">

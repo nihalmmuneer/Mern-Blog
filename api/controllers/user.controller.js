@@ -8,8 +8,6 @@ export const test = (req, res) => {
 
 export const updateUser = async (req, res, next) => {
   // first of all we need to verify the user who logged in. Inorder to do that we create verifyUser file inside utils
-  console.log(req.user, "req-user from user.controller");
-  console.log(req.params.user_id, "req-user-d");
   if (req.user.id !== req.params.user_id) {
     return next(errorHandler(401, "User cannot be updated"));
   }
@@ -90,10 +88,8 @@ export const getUsers = async (req, res, next) => {
       .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
-    console.log(getUserDetails, "getUserDetails");
 
     const getUserDetailsWithoutPassword = getUserDetails.map((user) => {
-      console.log(user, "user");
       const { password, ...rest } = user._doc;
       return rest;
     });

@@ -25,8 +25,6 @@ const UpdatePost = () => {
   const [publishError, setPublishError] = useState(null);
   const details = useParams();
   const users = useSelector((state) => state.user.user);
-  console.log(details, "details");
-  console.log(users, "users");
 
   useEffect(() => {
     try {
@@ -37,7 +35,6 @@ const UpdatePost = () => {
           setPublishError(data.message);
         }
         if (res.ok) {
-          console.log(data, "data");
           setPublishError(null);
           setFormData(data.posts[0]);
         }
@@ -84,7 +81,6 @@ const UpdatePost = () => {
   };
 
   const handlePublish = async (e) => {
-    console.log(formData, "formData-publish");
     e.preventDefault();
     try {
       const res = await fetch(
@@ -96,13 +92,10 @@ const UpdatePost = () => {
         }
       );
       const data = await res.json();
-      console.log(data, "fetch-data");
       if (!res.ok) {
-        console.log(data.message, "data");
         setPublishError(data.message);
         return;
       } else {
-        console.log(data, "data");
         setFormData(data.posts);
         setPublishError(null);
         navigate(`/posts/${data.slug}`);
@@ -112,8 +105,6 @@ const UpdatePost = () => {
       return;
     }
   };
-  console.log(formData, "formData");
-  console.log(file, "file");
   return (
     <div className=" p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className=" text-3xl font-semibold text-center my-7">

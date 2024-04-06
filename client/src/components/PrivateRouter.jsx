@@ -3,7 +3,6 @@ import Dashboard from "../pages/Dashboard";
 import { Navigate } from "react-router-dom";
 const PrivateRouter = () => {
   const detail = useSelector((state) => state.user.user);
-  console.log(detail, "detail");
   return (
     <div>
       {detail.currentUser ? <Dashboard /> : <Navigate to="/sign-in" />}{" "}

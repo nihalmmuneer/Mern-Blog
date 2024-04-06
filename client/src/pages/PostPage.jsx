@@ -10,7 +10,6 @@ const PostPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [recentArticles, setRecentArticles] = useState(null);
-  console.log(recentArticles, "recent-articles");
 
   useEffect(() => {
     setLoading(true);

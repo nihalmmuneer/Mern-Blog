@@ -11,7 +11,6 @@ const Search = () => {
     sort: "desc",
     category: "uncategorized",
   });
-  console.log(sidebarData, "sidebarData");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);

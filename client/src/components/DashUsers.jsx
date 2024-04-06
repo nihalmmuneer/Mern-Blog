@@ -14,10 +14,8 @@ const DashUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState("");
   const details = useSelector((state) => state.user.user);
-  console.log(users, "users");
   const handleShowMore = async () => {
     const startIndex = users.length;
-    console.log(startIndex, "startIndex");
 
     try {
       const res = await fetch(`api/user/get-users?startIndex=${startIndex}`);
@@ -32,16 +30,13 @@ const DashUsers = () => {
       console.log(error.message);
     }
   };
-  console.log(users, "users");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch("/api/user/get-users");
         const data = await res.json();
-        console.log(data.getUserDetails, "get-users");
         if (res.ok) {
           setUsers(data.getUserDetails);
-          console.log(data.getUserDetails.length, "data-length");
           if (data.getUserDetails.length < 9) {
             setShowMore(false);
           }
@@ -55,13 +50,10 @@ const DashUsers = () => {
     }
   }, [details.currentUser?._id]);
   const handleDelete = async () => {
-    console.log(deleteUserId, "deleteUserId");
     try {
       const res = await fetch(`/api/user/delete/${deleteUserId}`, {
         method: "DELETE",
       });
-      const data = await res.json();
-      console.log(data);
       if (res.ok) {
         setUsers((prev) => prev.filter((user) => user._id !== deleteUserId));
         setShowModal(false);

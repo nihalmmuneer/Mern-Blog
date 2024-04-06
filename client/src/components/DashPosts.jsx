@@ -61,15 +61,12 @@ const DashPosts = () => {
           method: "DELETE",
         }
       );
-      const data = await res.json();
 
       if (res.ok) {
         setUserPosts((prev) =>
           prev.filter((post) => post._id !== deletePostId)
         );
-      } else {
-        console.log(data.message);
-      }
+      } 
     } catch (error) {
       console.log(error.message);
     }

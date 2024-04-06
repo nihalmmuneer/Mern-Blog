@@ -42,7 +42,7 @@ export const getPosts = async (req, res, next) => {
       ...(req.query.postId && { _id: req.query.postId }),
       ...(req.query.searchTerm && {
         $or: [
-          { title: { $regex: req.query.searchTerm, $options: "i" } }, //$regex - used for searching the term eg: software - then it will display the content post on this search word
+          { title: { $regex: req.query.searchTerm, $options: "i" } }, //$regex - used for searching the term eg: software - then it will display the  post on this search word
           { content: { $regex: req.query.searchTerm, $options: "i" } }, // $options: i - Used for not bother if it is typed lowercase or uppercase
         ],
       }),
@@ -77,9 +77,6 @@ export const getPosts = async (req, res, next) => {
 };
 
 export const deletePost = async (req, res, next) => {
-  console.log(req.user.id, "req.user.id");
-  console.log(req.params.postId, "req.params.postId");
-  console.log(req.params.userId, "req.params.userId");
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(401, "Post cannot be deleted"));
   }

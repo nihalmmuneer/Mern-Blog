@@ -23,7 +23,6 @@ const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
         }
         if (!res.ok) {
           setUserComment(null);
-          console.log(data.message, "user-error");
         }
       } catch (error) {
         console.log(error.message);
@@ -39,25 +38,24 @@ const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
     setEdit(true);
   };
 
-  const handleSave = async() => {
-        try{
-            const res = await fetch(`/api/comment/editComment/${posts[0]?._id}`, {
-                method: "PUT",
-                headers:{"Content-Type":"application/json"},
-                body: JSON.stringify({
-                    content: editContent
-                })
-            })
-            // const data = await res.json()
-            // console.log(data, 'data-save-update')
-            if(res.ok){
-                setEdit(false);
-                onEditSave(posts,editContent)
-            }
-        }catch(error){
-            console.log(error.message)
-        }
-  }
+  const handleSave = async () => {
+    try {
+      const res = await fetch(`/api/comment/editComment/${posts[0]?._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: editContent,
+        }),
+      });
+  
+      if (res.ok) {
+        setEdit(false);
+        onEditSave(posts, editContent);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="flex p-3 gap-2 mx-auto max-w-2xl w-full border-b dark:border-gray-600 mb-2">
       <div className="shrink">
@@ -78,16 +76,31 @@ const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
           </span>
         </div>
         {edit ? (
-            <>
-          <Textarea
-            value={editContent}
-            className="mt-1 resize-none mb-2"
-            onChange={(e) => setEditContent(e.target.value)}
-          />
-          <div className="flex justify-end gap-2 ">
-            <Button size="md" className="rounded-md text-xs" gradientDuoTone="purpleToBlue" onClick={handleSave}>Save</Button>
-            <Button outline size="md" className="rounded-md text-xs" gradientDuoTone="purpleToBlue" onClick={() =>setEdit(false)}>Cancel</Button>
-          </div>
+          <>
+            <Textarea
+              value={editContent}
+              className="mt-1 resize-none mb-2"
+              onChange={(e) => setEditContent(e.target.value)}
+            />
+            <div className="flex justify-end gap-2 ">
+              <Button
+                size="md"
+                className="rounded-md text-xs"
+                gradientDuoTone="purpleToBlue"
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+              <Button
+                outline
+                size="md"
+                className="rounded-md text-xs"
+                gradientDuoTone="purpleToBlue"
+                onClick={() => setEdit(false)}
+              >
+                Cancel
+              </Button>
+            </div>
           </>
         ) : (
           <>
@@ -117,20 +130,20 @@ const Comments = ({ posts, onLike, onEditSave, onDelete }) => {
                   details.currentUser._Id === posts[0].userId) ||
                   (details.currentUser.isAdmin && (
                     <>
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-blue-500"
-                      onClick={handleEdit}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className="text-gray-400 hover:text-red-500"
-                      onClick={()=>onDelete(posts[0]._id)}
-                    >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        className="text-gray-400 hover:text-blue-500"
+                        onClick={handleEdit}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="text-gray-400 hover:text-red-500"
+                        onClick={() => onDelete(posts[0]._id)}
+                      >
+                        Delete
+                      </button>
                     </>
                   ))}
               </div>
@@ -146,7 +159,6 @@ Comments.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.object).isRequired,
   onLike: PropTypes.func.isRequired,
   onEditSave: PropTypes.func.isRequired,
-  onDelete:PropTypes.func.isRequired
-
+  onDelete: PropTypes.func.isRequired,
 };
 export default Comments;

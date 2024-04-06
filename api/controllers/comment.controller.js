@@ -3,8 +3,6 @@ import Comment from "../models/comment.model.js";
 
 export const PostComment = async (req, res, next) => {
   try {
-    console.log("recieved postId:", req.body.postId);
-    console.log("recieved userId:", req.body.userId);
     const { userId, postId, content } = req.body;
 
     if ((!userId, !postId, !content)) {
@@ -41,7 +39,6 @@ export const getComments = async (req, res, next) => {
 
 export const likeComment = async (req, res, next) => {
   try {
-    console.log(req.params.commentId);
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
       return next(errorHandler(401, "Comments not found"));

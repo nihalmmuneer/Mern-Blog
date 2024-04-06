@@ -9,7 +9,6 @@ export default function Signup() {
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    console.log(formData, "formData");
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +25,6 @@ export default function Signup() {
       });
       const data = await res.json();
       setLoading(false);
-      console.log(data, "data");
       if (data.success === false) {
         return setErrorMessage(data.message);
       }
